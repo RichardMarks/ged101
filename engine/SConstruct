@@ -1,0 +1,33 @@
+#
+# SConstruct
+# scons build script
+
+engine = ['engine', 
+	Split("""
+	./source/ALBASEMain.cpp
+	./source/Audio_OGG.cpp
+	./source/DebugReport.cpp
+	./source/GameTimer.cpp
+	./source/GameStateManager.cpp
+	./source/InputManager.cpp
+	./source/main.cpp
+	""")]
+
+################################################################################
+# build the engine library into the lib folder
+#
+# engine[0] is the name of the library
+# engine[1] is the list of sources to be compiled
+#
+################################################################################
+
+import os
+buildEnv = Environment(CCFLAGS = '-g', CPPPATH = ['../','.','./include'])
+buildEnv.StaticLibrary('./lib/' + os.name + '/' + engine[0], engine[1])
+
+################################################################################
+
+
+
+
+
