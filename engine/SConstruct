@@ -11,6 +11,10 @@ engine = ['engine',
 	./source/GameStateManager.cpp
 	./source/InputManager.cpp
 	./source/main.cpp
+	./source/CommunicationDevice.cpp
+	./source/GameObject.cpp
+	./source/GameObjectGroup.cpp
+	./source/GameObjectGroupManager.cpp
 	""")]
 
 ################################################################################
