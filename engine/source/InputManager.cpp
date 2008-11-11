@@ -17,8 +17,8 @@
 // include the complementing header
 #include "InputManager.h"
 
-// include the image header
-#include "Image.h"
+// include the image resource header
+#include "ImageResource.h"
 
 // include the error reporting header
 #include "DebugReport.h"
