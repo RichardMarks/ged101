@@ -105,17 +105,9 @@ namespace ALBASE
 			LogFatal("Could not install Allegro Timer driver!");
 		}
 		
-		// install the Allegro keyboard driver
-		if (0 != install_keyboard())
-		{
-			LogFatal("Could not install Allegro Keyboard driver!");
-		}
 		
-		// install the Allegro mouse driver
-		if (install_mouse() < 0)
-		{
-			LogFatal("Could not install Allegro Mouse driver!");
-		}
+		
+		
 		
 		// set the video mode
 		set_color_depth(24);

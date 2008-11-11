@@ -21,6 +21,7 @@ namespace ENGINE
 	* such as: ENGINE::InputManager->KeyPressed();
 	*
 	*/
+	class ImageResource;
 	class InputManagerSingleton
 	{
 	public:
@@ -51,12 +52,32 @@ namespace ENGINE
 		
 		
 		// mouse functionality
-		
-		// TODO: Implement Mouse Functionality
+		bool MouseButtonDown(int button);
+		bool MouseButtonUp(int button);
+		int MouseX();
+		int MouseY();
+		int MouseZ();
+		int MouseMoveRelative(int axis);
+		void MouseSetPosition(int x, int y, int z = 0);
+		void MouseSetRegion(int left, int top, int right, int bottom);
+		void MouseSetSpeed(int speedX, int speedY);
+		void MouseSetCursorImage(ImageResource* image = 0, int hotSpotX = 0, int hotSpotY = 0);
 		
 		// joystick functionality
+		void BeginJoystickCalibration();
+		static bool JoyExists(int joystick);
+		static bool JoyButtonExists(int joystick, int button);
+		static bool JoyStickExists(int joystick, int stick);
+		// digital joystick input
+		bool JoyButtonDown(int button, int joystick = 0);
+		bool JoyButtonUp(int button, int joystick = 0);
+		bool JoyUp(int joystick = 0, int stick = 0);
+		bool JoyDown(int joystick = 0, int stick = 0);
+		bool JoyLeft(int joystick = 0, int stick = 0);
+		bool JoyRight(int joystick = 0, int stick = 0);
 		
-		// TODO: Implement Joystick Functionality
+		// analogue joystick input
+		int Joy(int axis, int stick = 0, int joystick = 0);
 		
 		void Update();
 		
@@ -75,6 +96,9 @@ namespace ENGINE
 		
 		bool key_[255]; // used in key down or up
 		bool keys_[255]; // used in key pressed
+		
+		bool joystickAvailable_; // will be true only when we successfully loaded the joystick calibration
+		
 	}; // end class
 
 /**
