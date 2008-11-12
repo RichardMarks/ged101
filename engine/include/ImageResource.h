@@ -96,6 +96,8 @@ namespace ENGINE
 		
 	private:
 		// private members should be declared here
+		BITMAP* LoadBitmapInternal(const char* fileName);
+		BITMAP* LoadPNGInternal(const char* fileName);
 		BITMAP* allegroBitmap_;
 	}; // end class
 

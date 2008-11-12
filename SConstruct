@@ -20,6 +20,7 @@ gameLibraries = Split("""
     ogg
     vorbis
     vorbisfile
+    png
     engine
 	""")
 	
