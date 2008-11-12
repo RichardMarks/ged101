@@ -20,6 +20,7 @@ namespace ENGINE
 	{
 	public:
 		// public members should be declared here
+		
 		ImageResource();
 		
 		ImageResource(int width, int height, int color = 0);
@@ -28,14 +29,55 @@ namespace ENGINE
 		
 		~ImageResource();
 		
+		// creation
 		void Create(int width, int height, int color = 0);
 		
 		void Create(BITMAP* source);
 		
+		bool Load(const char* fileName);
+		
+		bool LoadFrom(const char* fileName, int sourceX, int sourceY, int width, int height);
+		
+		// destruction
 		void Destroy();
 		
-		void SetBitmap(BITMAP* source);
+		// blitting
+		void Blit(
+			ImageResource* destination, 
+			int srcX, int srcY,
+			int destX, int destY,
+			int width, int height);
 		
+		void Blit(
+			ImageResource* destination, 
+			int srcX, int srcY,
+			int srcWidth, int srcHeight,
+			int destX, int destY,
+			int destWidth, int destHeight);
+			
+		void BlitMasked(
+			ImageResource* destination, 
+			int srcX, int srcY,
+			int destX, int destY,
+			int width, int height);
+		
+		void BlitMasked(
+			ImageResource* destination, 
+			int srcX, int srcY,
+			int srcWidth, int srcHeight,
+			int destX, int destY,
+			int destWidth, int destHeight);
+		
+		// transformations
+		void Mirror();
+		void Flip();
+		void Rotate(int angle);
+		
+		// pixel access
+		int GetPixel(int x, int y);
+		void SetPixel(int x, int y, int color);
+		
+		// member accessor
 		BITMAP* GetBitmap();
 		
 	private:
