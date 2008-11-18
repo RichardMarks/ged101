@@ -4,7 +4,7 @@
 // ImageResource.cpp
 // Project: Game Engine Design 101 (ENGINE)
 // Author: Richard Marks
-// Purpose: Wraps up Allegro bitmaps
+// Purpose: A class for loading, saving, manipulating, and rendering non-animated bitmap images
 
 // include the common headers
 #include <cstdio>
@@ -78,7 +78,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	bool Load(const char* fileName)
+	bool ImageResource::Load(const char* fileName)
 	{
 		Destroy();
 		
@@ -113,7 +113,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	bool LoadFrom(const char* fileName, int sourceX, int sourceY, int width, int height)
+	bool ImageResource::LoadFrom(const char* fileName, int sourceX, int sourceY, int width, int height)
 	{
 		Destroy();
 		
@@ -160,7 +160,7 @@ namespace ENGINE
 	/**************************************************************************/
 	
 	// blitting
-	void Blit(
+	void ImageResource::Blit(
 		ImageResource* destination, 
 		int srcX, int srcY,
 		int destX, int destY,
@@ -171,7 +171,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void Blit(
+	void ImageResource::Blit(
 		ImageResource* destination, 
 		int srcX, int srcY,
 		int srcWidth, int srcHeight,
@@ -183,7 +183,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void BlitMasked(
+	void ImageResource::BlitMasked(
 		ImageResource* destination, 
 		int srcX, int srcY,
 		int destX, int destY,
@@ -194,7 +194,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void BlitMasked(
+	void ImageResource::BlitMasked(
 		ImageResource* destination, 
 		int srcX, int srcY,
 		int srcWidth, int srcHeight,
@@ -207,7 +207,7 @@ namespace ENGINE
 	/**************************************************************************/
 	
 	// transformations
-	void Mirror()
+	void ImageResource::Mirror()
 	{
 		BITMAP* originalCopy = create_bitmap(allegroBitmap_->w, allegroBitmap_->h);
 		if (0 != originalCopy)
@@ -220,7 +220,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void Flip()
+	void ImageResource::Flip()
 	{
 		BITMAP* originalCopy = create_bitmap(allegroBitmap_->w, allegroBitmap_->h);
 		if (0 != originalCopy)
@@ -233,7 +233,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void Rotate(int angle)
+	void ImageResource::Rotate(int angle)
 	{
 		BITMAP* originalCopy = create_bitmap(allegroBitmap_->w, allegroBitmap_->h);
 		if (0 != originalCopy)
@@ -248,14 +248,14 @@ namespace ENGINE
 	/**************************************************************************/
 	
 	// pixel access
-	int GetPixel(int x, int y)
+	int ImageResource::GetPixel(int x, int y)
 	{
 		return get_pixel(allegroBitmap_, x, y);
 	}
 	
 	/**************************************************************************/
 	
-	void SetPixel(int x, int y, int color)
+	void ImageResource::SetPixel(int x, int y, int color)
 	{
 		set_pixel(allegroBitmap_, x, y, color);
 	}
