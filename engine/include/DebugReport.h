@@ -52,16 +52,16 @@ namespace DEBUG
 	
 	/**
 	 * \class DebugReportInfo
-	 * The DebugReportInfo class is a helper class that gives the functionality of 
-	 * a printf-style error reporting function. The class stores the file and line information
-	 * so that it may be used later when calling the real reporting functions from the DebugReport class.
+	 * \brief The DebugReportInfo class is a helper class that gives the functionality of a printf-style error reporting function. 
+	 * The class stores the function, file and line information so that it may be used later when calling the real 
+	 * reporting functions from the DebugReport class.\n
 	 * Many thanks to RedSlash for this contribution.
 	 */
 	class DebugReportInfo
 	{
 	public:
 		/**
-		 * Initializes DebugLogger with file and line information.
+		 * Initializes class with function, file and line information.
 		 * @param func is the name of the Function that the report is being made from. Usually you should pass __PRETTY_FUNCTION__ here, or __func__.
 		 * @param file is the name of the File that the report is being made in. Usually __FILE__ should be used here.
 		 * @param line is the line number that the report is being made on. This is almost always __LINE__.
@@ -113,6 +113,7 @@ namespace DEBUG
 	
 	/**
 	 * \class DebugReport
+	 * \brief Handles the actual report logging functionality of the debug system.
 	 * The DebugReport class only exposes the static DebugReport::Log() function.
 	 * Instances of the DebugReport class cannot be made.
 	 * Example use: DebugReport::Log(DBGREP_FATAL, "Engine::Initialize()", "Could not Initialize the Engine!");
@@ -121,8 +122,8 @@ namespace DEBUG
 	{
 	public:
 		/**
-		 * The DebugReport::Log writes reports to errors.txt warnings.txt or messages.txt based on the report severity level.
-		 * It is not recommended to use this method directly, but to make use of the
+		 * The DebugReport::Log function writes reports to errors.txt warnings.txt or messages.txt based on the report severity level.
+		 * It is not recommended to use this function directly, but to make use of the
 		 * supporting MACROs: LogFatal, LogError, LogWarning, LogMessage
 		 * @param severity is the report severity level. This can be any of the values DBGREP_WARNING, DBGREP_FATAL, DBGREP_ERROR or DBGREP_MESSAGE.
 		 * @param location is the name of the File that the report is being made in. Usually the value of __FILE__.
