@@ -3,7 +3,7 @@
 
 // DebugReport.cpp
 // Project: Project Debugging Utility Library (DEBUG)
-// Author: Richard Marks
+// Author: Richard Marks, RedSlash
 // Purpose: debug support library
 
 #include <cstdio>
@@ -16,10 +16,78 @@
 
 namespace DEBUG
 {
+	DebugReportInfo::DebugReportInfo(const char* func, const char* file, int line) : 
+		func_(func), 
+		file_(file), 
+		line_(line)
+	{
+	}
+	
+	/**************************************************************************/
+	
+	void DebugReportInfo::PrintLog(unsigned int severity, const char* message, va_list va)
+	{
+		char logBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH];
+
+		snprintf(logBuffer,DEBUG::DBGREP_MAX_REPORT_LENGTH,
+			"      Function: %s\n\t"
+			"          Line: %d\n\t"
+			"Report Details:\n\n\t\t",
+			func_,
+			line_);
+		const int lengthReport = strlen(logBuffer);
+		// concatenate printf-style message string to logBuffer for remaining buffer space minus two for the trailing \n and \0 characters
+		vsnprintf(logBuffer + lengthReport, DEBUG::DBGREP_MAX_REPORT_LENGTH - lengthReport - 2, message, va);
+		strncat(logBuffer, "\n", 2);
+		DEBUG::DebugReport::Log(severity, file_, logBuffer);
+	}
+
+	/**************************************************************************/
+	
+	void DebugReportInfo::PrintWarning(const char* message, ...)
+	{
+		va_list va;
+		va_start(va, message);
+		PrintLog(DBGREP_WARNING, message, va);
+		va_end(va);
+	}
+	
+	/**************************************************************************/
+	
+	void DebugReportInfo::PrintError(const char* message, ...)
+	{
+		va_list va;
+		va_start(va, message);
+		PrintLog(DBGREP_ERROR, message, va);
+		va_end(va);
+	}
+	
+	/**************************************************************************/
+	
+	void DebugReportInfo::PrintFatal(const char* message, ...)
+	{
+		va_list va;
+		va_start(va, message);
+		PrintLog(DBGREP_FATAL, message, va);
+		va_end(va);
+	}
+		
+	/**************************************************************************/
+	
+	void DebugReportInfo::PrintMessage(const char* message, ...)
+	{
+		va_list va;
+		va_start(va, message);
+		PrintLog(DBGREP_MESSAGE, message, va);
+		va_end(va);
+	}
+	
+	/**************************************************************************/
+	
 	/**
 	* The Log method handles error reporting in a clean easy to use fashion.
 	* It is not recommended to use this method directly, but to make use of the
-	* supporting MACROs LogFatal, LogError, LogWarning
+	* supporting MACROs LogFatal, LogError, LogWarning, LogMessage
 	*/
 	void DebugReport::Log(unsigned int severity, const char* location, const char* message)
 	{
