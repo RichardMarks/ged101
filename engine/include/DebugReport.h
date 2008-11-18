@@ -11,208 +11,151 @@
 
 #include <cstdarg>
 
+/**
+ * \file DebugReport.h
+ * \brief Project Debugging Utility Library - Error Reporting Header
+ *
+ * The Project Debugging Utility Library is comprised of a few classes that make
+ * error reporting an easy task. There are several levels of reporting severity.\n
+ * Including
+ * \li Fatal Errors
+ * \li Non-fatal Error
+ * \li Warnings
+ * \li Generic Messages
+ * \sa DBGREP_FATAL, DBGREP_ERROR, DBGREP_WARNING, DBGREP_MESSAGE
+ * \n\n
+ * The use of the classes should be restricted to using only the MACROs in your code.
+ * \sa LogFatal, LogError, LogWarning, LogMessage
+ */
+
 // __PRETTY_FUNCTION__ is a GNU extension, disable it if not GNU g++
 #ifndef __GNUC__
-#define __PRETTY_FUNCTION__ "n/a"
+#define __PRETTY_FUNCTION__ "This feature is unavailable on this compiler."
 #endif
 
 namespace DEBUG
 {
-	/** 
-	* Reporting Severity Levels
-	*/
-	const unsigned int DBGREP_FATAL 			= 0xAA;   /// writes an error to errors.txt and exits the game
-	const unsigned int DBGREP_ERROR 			= 0xBB;   /// writes an error to errors.txt
-	const unsigned int DBGREP_WARNING 			= 0xCC;   /// writes a warning to warnings.txt
-	const unsigned int DBGREP_MESSAGE 			= 0xDD;   /// writes a message to messages.txt
-	const unsigned int DBGREP_MAX_REPORT_LENGTH = 0x1000; /// 4096 characters max report length
+	//! writes an error to errors.txt and exits the game
+	const unsigned int DBGREP_FATAL 			= 0xAA;
+	
+	//! writes an error to errors.txt
+	const unsigned int DBGREP_ERROR 			= 0xBB;
+	
+	//! writes a warning to warnings.txt
+	const unsigned int DBGREP_WARNING 			= 0xCC;
+	
+	//! writes a message to messages.txt
+	const unsigned int DBGREP_MESSAGE 			= 0xDD;
+	
+	//! 4096 characters max report length   
+	const unsigned int DBGREP_MAX_REPORT_LENGTH = 0x1000; 
 	
 	/**
-	* Helper class for generating reports with file and line info.
-	* Thanks RedSlash
-	*/
+	 * \class DebugReportInfo
+	 * The DebugReportInfo class is a helper class that gives the functionality of 
+	 * a printf-style error reporting function. The class stores the file and line information
+	 * so that it may be used later when calling the real reporting functions from the DebugReport class.
+	 * Many thanks to RedSlash for this contribution.
+	 */
 	class DebugReportInfo
 	{
 	public:
 		/**
 		 * Initializes DebugLogger with file and line information.
-		 * @param func Function name (usually pass __PRETTY_FUNCTION__ here, or __func__)
-		 * @param file Filename (__FILE__)
-		 * @param line Line number (__LINE__)
+		 * @param func is the name of the Function that the report is being made from. Usually you should pass __PRETTY_FUNCTION__ here, or __func__.
+		 * @param file is the name of the File that the report is being made in. Usually __FILE__ should be used here.
+		 * @param line is the line number that the report is being made on. This is almost always __LINE__.
 		 */
 		DebugReportInfo(const char* func, const char* file, int line);
 		
 		/**
-		 * Formats an error report based on the information provided and 
-		 * calls DebugReport::Log().
-		 * @param severity DBGREP_WARNING, DBGREP_FATAL or DBGREP_ERROR, DBGREP_MESSAGE
-		 * @param message A printf-style message string.
-		 * @param va A va_list.
+		 * Formats a report based on the information provided and makes a call to the DebugReport::Log() function.
+		 * @param severity is the report severity level. This can be any of the values DBGREP_WARNING, DBGREP_FATAL, DBGREP_ERROR or DBGREP_MESSAGE.
+		 * @param message is the message to be reported. This is a printf-style C-string.
+		 * @param va is an optional number of arguments may be passed here to satisfy the previous printf-style C-string.
 		 */ 
 		void PrintLog(unsigned int severity, const char* message, va_list va);
 		
 		/**
-		 * Calls DebugReportInfo::PrintLog(DBGREP_WARNING,message,...).
-		 * @param message A printf-style message string.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_WARNING severity level.
+		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintWarning(const char* message, ...);
 		
 		/**
-		 * Calls DebugReportInfo::PrintLog(DBGREP_ERROR,message,...).
-		 * @param message A printf-style message string.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_ERROR severity level.
+		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintError(const char* message, ...);
 		
 		/**
-		 * Calls DebugReportInfo::PrintLog(DBGREP_FATAL,message,...).
-		 * @param message A printf-style message string.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_FATAL severity level.
+		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintFatal(const char* message, ...);
 		
 		/**
-		 * Calls DebugReportInfo::PrintLog(DBGREP_MESSAGE,message,...).
-		 * @param message A printf-style message string.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_MESSAGE severity level.
+		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintMessage(const char* message, ...);
 		
 	private:
-		const char* func_; 	/// holds the function information stored in __func__ or __PRETTY_FUNCTION__
-		const char* file_; 	/// holds the file information stored in __FILE__
-		int line_; 			/// holds the line number information stored in __LINE__
+		//! The name of the Function that the report is being made from. Usually the value of __PRETTY_FUNCTION__ or __func__.
+		const char* func_;
+		
+		//! The name of the File that the report is being made in. Usually the value of __FILE__.
+		const char* file_;
+		
+		//! The line number that the report is being made on. This is almost always __LINE__.
+		int line_; 			
 	}; // end class
 	
 	/**
-	*	DebugReport only exposes the static Log method.
-	*	Instances of the DebugReport class cannot be made.
-	*	Example use: DebugReport::Log(DBGREP_FATAL, "Engine::Initialize()", "Could not Initialize the Engine!");
-	*/
+	 * \class DebugReport
+	 * The DebugReport class only exposes the static DebugReport::Log() function.
+	 * Instances of the DebugReport class cannot be made.
+	 * Example use: DebugReport::Log(DBGREP_FATAL, "Engine::Initialize()", "Could not Initialize the Engine!");
+	 */
 	class DebugReport
 	{
 	public:
-		// public members should be declared here
-		
 		/**
-		* The Log method handles error reporting in a clean easy to use fashion.
-		* It is not recommended to use this method directly, but to make use of the
-		* supporting MACROs LogFatal, LogError, LogWarning, LogMessage
-		* @param severity DBGREP_WARNING, DBGREP_FATAL or DBGREP_ERROR, DBGREP_MESSAGE
-		* @param location string holding file information
-		* @param message string to be reported
-		*/
+		 * The DebugReport::Log writes reports to errors.txt warnings.txt or messages.txt based on the report severity level.
+		 * It is not recommended to use this method directly, but to make use of the
+		 * supporting MACROs: LogFatal, LogError, LogWarning, LogMessage
+		 * @param severity is the report severity level. This can be any of the values DBGREP_WARNING, DBGREP_FATAL, DBGREP_ERROR or DBGREP_MESSAGE.
+		 * @param location is the name of the File that the report is being made in. Usually the value of __FILE__.
+		 * @param message is the message to be reported. This should have been created using the functions in the DebugReportInfo class.
+		 */
 		static void Log(
 			unsigned int severity = DBGREP_WARNING,
 			const char* location = "",
 			const char* message = "");
 
 	private:
-		// private members should be declared here
-		DebugReport(){}; // we never need to create an instance of this class
+		DebugReport()
+		{
+			 //! We NEVER need to create an instance of this class.
+		};
 	}; // end class
 
 	/**
-	* Reporting MACROs
-	* LogFatal		- reports a fatal error and kills the running process
-	* LogError		- reports an error and continues running
-	* LogWarning	- reports a warning and continues running
-	* LogMessage	- reports a message and continues running
-	*
-	*/
+	 * \def LogFatal
+	 * \brief reports a fatal error and kills the running process
+	 * \def LogError
+	 * \brief reports an error and continues running
+	 * \def LogWarning
+	 * \brief reports a warning and continues running
+	 * \def LogMessage
+	 * \brief reports a message and continues running
+	 */
+
 	#define LogFatal DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintFatal
 	#define LogError DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintError
 	#define LogWarning DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintWarning
 	#define LogMessage DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintMessage
 	
-#if 0
-	/**
-	* The LogFatal MACRO takes a single string as a parameter and creates the code
-	* to easily make a call to the log reporting method in the DebugReport class.
-	* The code trys as best as possible to prevent errors from occurring, but you should
-	* not pass anything other than a string to the macro.
-	*
-	* The execution of the running process is halted when this macro is used by calling exit(1);
-	* The fatal error is logged to the errors.txt file
-	*/
-	#define LogFatal(message) do \
-	{ \
-		char logFatalBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH]; \
-		sprintf(logFatalBuffer, \
-			"      Function: %s\n\t" \
-			"          Line: %d\n\t" \
-			"Report Details:\n\n\t\t%s\n", \
-			__PRETTY_FUNCTION__, \
-			__LINE__, \
-			static_cast<const char*>(message)); \
-		DEBUG::DebugReport::Log(DEBUG::DBGREP_FATAL, __FILE__, logFatalBuffer); \
-	} while(0)
-	// END OF MACRO
-	
-	/**
-	* The LogError MACRO takes a single string as a parameter and creates the code
-	* to easily make a call to the log reporting method in the DebugReport class.
-	* The code trys as best as possible to prevent errors from occurring, but you should
-	* not pass anything other than a string to the macro.
-	*
-	* The error is logged to the errors.txt file
-	*/
-	#define LogError(message) do \
-	{ \
-		char logErrorBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH]; \
-		sprintf(logErrorBuffer, \
-			"      Function: %s\n\t" \
-			"          Line: %d\n\t" \
-			"Report Details:\n\n\t\t%s\n", \
-			__PRETTY_FUNCTION__, \
-			__LINE__, \
-			static_cast<const char*>(message)); \
-		DEBUG::DebugReport::Log(DEBUG::DBGREP_ERROR, __FILE__, logErrorBuffer); \
-	} while(0)
-	// END OF MACRO
-	
-	/**
-	* The LogWarning MACRO takes a single string as a parameter and creates the code
-	* to easily make a call to the log reporting method in the DebugReport class.
-	* The code trys as best as possible to prevent errors from occurring, but you should
-	* not pass anything other than a string to the macro.
-	*
-	* The warning is logged to the warnings.txt file
-	*/
-	#define LogWarning(message) do \
-	{ \
-		char logWarningBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH]; \
-		sprintf(logWarningBuffer, \
-			"      Function: %s\n\t" \
-			"          Line: %d\n\t" \
-			"Report Details:\n\n\t\t%s\n", \
-			__PRETTY_FUNCTION__, \
-			__LINE__, \
-			static_cast<const char*>(message)); \
-		DEBUG::DebugReport::Log(DEBUG::DBGREP_WARNING, __FILE__, logWarningBuffer); \
-	} while(0)
-	// END OF MACRO
-	
-	/**
-	* The LogMessage MACRO takes a single string as a parameter and creates the code
-	* to easily make a call to the log reporting method in the DebugReport class.
-	* The code trys as best as possible to prevent errors from occurring, but you should
-	* not pass anything other than a string to the macro.
-	*
-	* The message is logged to the messages.txt file
-	*/
-	#define LogMessage(message) do \
-	{ \
-		char logMessageBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH]; \
-		sprintf(logMessageBuffer, \
-			"      Function: %s\n\t" \
-			"          Line: %d\n\t" \
-			"Report Details:\n\n\t\t%s\n", \
-			__PRETTY_FUNCTION__, \
-			__LINE__, \
-			static_cast<const char*>(message)); \
-		DEBUG::DebugReport::Log(DEBUG::DBGREP_MESSAGE, __FILE__, logMessageBuffer); \
-	} while(0)
-	// END OF MACRO
-#endif
-
 } // end namespace
 #endif
 

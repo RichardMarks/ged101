@@ -4,7 +4,7 @@
 // Audio_OGG.cpp
 // Project: Game Engine Design 101 (ENGINE)
 // Author: Richard Marks - created with help from many source references found on the web and from friends.
-// Purpose: This class wraps the OGG/Vorbis audio resource loading, playback, destruction functionality.
+// Purpose: These classes wrap the OGG/Vorbis audio resource loading, playback, destruction functionality.
 
 // include the common headers
 #include <cstdio>
@@ -15,321 +15,29 @@
 #include <allegro.h>
 
 // include the complementing header
-#include "Audio.h"
-
-// include the audio formats header
-#include "AudioFormats.h"
+#include "Audio_OGG.h"
 
 // include the error reporting header
 #include "DebugReport.h"
 
 namespace ENGINE
 {
-	/**
-	* Opens an OGG/Vorbis file for streaming.
-	* Returns zero on success, and one on failure.
-	*/
-	int Audio::OpenStream_OGG(AudioStreamResource_OGG* resource)
+	AudioSampleResource_OGG::AudioSampleResource_OGG() :
+		allegroSample_(0)
 	{
-		FILE* fp;
-		vorbis_info* vorbisInfo;
-		fp = fopen(resource->fileName_, "rb");
-		if (!fp)
-		{
-			char e[256]; sprintf(e, "Could not load the file %s", resource->fileName_); LogFatal(e);
-		}
-	
-		int ovResult = ov_open_callbacks(fp, &resource->vorbisFile_, 0, 0, OV_CALLBACKS_DEFAULT);
-		if (0 != ovResult)
-		{
-			switch(ovResult)
-			{
-				case OV_EREAD:
-				{
-					LogFatal("ov_open_callbacks Error - A read from media returned an error.");
-				} break;
-		
-				case OV_ENOTVORBIS:
-				{
-					LogFatal("ov_open_callbacks Error - Bitstream does not contain any Vorbis data.");
-				} break;
-		
-				case OV_EVERSION:
-				{
-					LogFatal("ov_open_callbacks Error - Vorbis version mismatch.");
-				} break;
-		
-				case OV_EBADHEADER:
-				{
-					LogFatal("ov_open_callbacks Error - Invalid Vorbis bitstream header.");
-				} break;
-		
-				case OV_EFAULT:
-				{
-					LogFatal("ov_open_callbacks Error - Internal logic fault; indicates a bug or heap/stack corruption.");
-				} break;
-			}
-			return 1;
-		}
-	
-		vorbisInfo = ov_info(&resource->vorbisFile_, -1);
-	
-		char infoMsg[512];
-		sprintf(infoMsg, 
-			"\nVorbis Encoder Version: %d\n"
-			"Channels: %d\n"
-			"Sampling Rate: %d\n"
-			"Bitstream Upper Limit: %d\n"
-			"Bitstream Lower Limit: %d\n"
-			"Bitstream Average Bitrate: %d\n",
-			vorbisInfo->version,
-			vorbisInfo->channels,
-			vorbisInfo->rate,
-			vorbisInfo->bitrate_upper,
-			vorbisInfo->bitrate_lower,
-			vorbisInfo->bitrate_nominal
-			);
-		LogMessage(infoMsg);
-	
-		resource->bits_ 				= 16;
-		resource->stereo_ 				= (vorbisInfo->channels > 1) ? 1 : 0;
-		resource->frequency_ 			= vorbisInfo->rate;
-		resource->length_ 				= ov_pcm_total(&resource->vorbisFile_, -1);
-		
-		return 0;
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Releases memory allocated for the stream.
-	*/
-	void Audio::DestroyStream_OGG(AudioStreamResource_OGG* resource)
+	AudioSampleResource_OGG::~AudioSampleResource_OGG()
 	{
-		if (!resource->stopped_)
-		{
-			Audio::StopStream_OGG(resource);
-		}
-		
-		ov_clear(&resource->vorbisFile_);
-		free(resource->fileName_);
-		free(resource);
+		Destroy();
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Streams the audio data
-	* Returns zero on success, and one on failure.
-	*/
-	int Audio::PlayStream_OGG(AudioStreamResource_OGG* resource)
+	bool AudioSampleResource_OGG::Load(const char* fileName)
 	{
-		resource->currentBufferPage_ 	= 0;
-		resource->playingBufferPage_ 	= -1;
-
-		int bitsDiv = static_cast<int>((resource->bits_ / (sizeof(char) * 8)));
-		
-		int bufferDiv = static_cast<int>(AUDIORESOURCE_OGG_BUFFER_SIZE / (resource->stereo_ ? 2 : 1));
-		
-		bitsDiv = (bitsDiv <= 0) ? 1 : bitsDiv;
-		
-		resource->allegroAudioStream_ 	= play_audio_stream(
-			static_cast<int>(bufferDiv / bitsDiv), 
-			resource->bits_, 
-			resource->stereo_, 
-			resource->frequency_, 
-			resource->volume_, 
-			resource->pan_);
-
-		if (!resource->allegroAudioStream_)
-		{
-			LogFatal("Failed to create Allegro Audio Stream!");
-		}
-		
-		for (int index = 0; index < AUDIORESOURCE_OGG_BUFFER_PAGES; index++)
-		{
-			resource->buffer_[index] = static_cast<char*>(malloc(AUDIORESOURCE_OGG_BUFFER_SIZE));
-			
-			if (!resource->buffer_[index])
-			{
-				LogError("Could not allocate audio buffer!");
-				Audio::DestroyStream_OGG(resource);
-				return 1;
-			}
-			
-			if (Audio::ReadData_OGG(resource) < 0) 
-			{
-				return 1;
-			}
-		}
-		
-		resource->stopped_ = false;
-		return 0;
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Reads the audio data
-	* Returns the number of bytes of audio data read.
-	*/
-	int Audio::ReadData_OGG(AudioStreamResource_OGG* resource)
-	{
-		int bytesOfDataRead = 0;
-		int bitstream = 0;
-		int page = resource->currentBufferPage_;
-		
-		resource->currentBufferPage_++;
-		resource->currentBufferPage_ %= AUDIORESOURCE_OGG_BUFFER_PAGES;
-		memset(resource->buffer_[page], 0, AUDIORESOURCE_OGG_BUFFER_SIZE);
-
-		while (bytesOfDataRead < AUDIORESOURCE_OGG_BUFFER_SIZE) 
-		{
-			int thisRead = ov_read(&resource->vorbisFile_, 
-				resource->buffer_[page] + bytesOfDataRead,
-				AUDIORESOURCE_OGG_BUFFER_SIZE - bytesOfDataRead,
-				0, 
-				2, 
-				0, 
-				&bitstream);
-				
-			if (0 == thisRead) 
-			{
-				if (resource->loop_) 
-				{
-					ov_clear(&resource->vorbisFile_);
-					if (Audio::OpenStream_OGG(resource))
-					{
-						return -1;
-					}
-				}
-				else 
-				{
-					return bytesOfDataRead;
-				}
-			}
-			bytesOfDataRead += thisRead;
-		}
-		return bytesOfDataRead;
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Loads an OGG/Vorbis file to be streamed.
-	* Returns a pointer to an OGG/Vorbis Audio Stream Resource
-	*/
-	AudioStreamResource_OGG* Audio::GetStream_OGG(const char* fileName, int volume, int pan, int loop)
-	{
-		AudioStreamResource_OGG* resource = static_cast<AudioStreamResource_OGG*>(calloc(1, sizeof(AudioStreamResource_OGG)));
-		
-		if (!resource)
-		{
-			LogError("Could not allocate resource!");
-			return 0;
-		}
-
-		resource->fileName_ = strdup(fileName);
-
-		if (!resource->fileName_)
-		{
-			free(resource);
-			return 0;
-		}
-		
-		if (Audio::OpenStream_OGG(resource))
-		{
-			Audio::DestroyStream_OGG(resource);
-			return 0;
-		}
-		
-		resource->volume_ 				= volume;
-		resource->pan_ 					= pan;
-		resource->loop_ 				= loop;
-		
-		if (Audio::PlayStream_OGG(resource))
-		{
-			Audio::DestroyStream_OGG(resource);
-			return 0;
-		}
-		return resource;
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Refills the audio stream buffer with data.
-	*/
-	int Audio::UpdateStream_OGG(AudioStreamResource_OGG* resource)
-	{
-		if (resource->stopped_)
-		{
-			Audio::RestartStream_OGG(resource);
-		}
-		unsigned char* data = static_cast<unsigned char*>(get_audio_stream_buffer(resource->allegroAudioStream_));
-		if (!data) 
-		{
-			if (resource->currentBufferPage_ != resource->playingBufferPage_) 
-			{
-				int read = Audio::ReadData_OGG(resource);
-				if (read < AUDIORESOURCE_OGG_BUFFER_SIZE)
-				{
-					return 0;
-				}
-				else 
-				{
-					return 1;
-				}
-			}
-			else 
-			{
-				return 1;
-			}
-		}
-		resource->playingBufferPage_++;
-		resource->playingBufferPage_ %= AUDIORESOURCE_OGG_BUFFER_PAGES;
-		memcpy(data, resource->buffer_[resource->playingBufferPage_], AUDIORESOURCE_OGG_BUFFER_SIZE);
-		free_audio_stream_buffer(resource->allegroAudioStream_);
-		return 1;
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Halts the playing audio stream
-	*/
-	void Audio::StopStream_OGG(AudioStreamResource_OGG* resource)
-	{
-		stop_audio_stream(resource->allegroAudioStream_);
-		for (int index = 0; index < AUDIORESOURCE_OGG_BUFFER_PAGES; index++) 
-		{
-			free(resource->buffer_[index]);
-			resource->buffer_[index] = 0;
-		}
-		resource->stopped_ = true;
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Restarts the audio stream
-	*/
-	int Audio::RestartStream_OGG(AudioStreamResource_OGG* resource)
-	{
-		resource->stopped_ = false;
-		return Audio::PlayStream_OGG(resource);
-	}
-	
-	/**************************************************************************/
-	
-	/**
-	* Loads an OGG/Vorbis file into an Allegro SAMPLE structure.
-	* Returns a pointer to an allocated SAMPLE, or zero if there was a failure.
-	* Not recommended to use this directly. Use OpenSample_OGG instead.
-	*/
-	SAMPLE* Audio::CreateSample_OGG(const char* fileName)
-	{
-		SAMPLE* resource 		= 0;
 		FILE* fp 				= 0;
 		vorbis_info* vorbisInfo = 0;
 		OggVorbis_File vorbisFile;
@@ -340,11 +48,10 @@ namespace ENGINE
 		
 		char dataBuffer[AUDIORESOURCE_OGG_BUFFER_SIZE];
 		
-		///
 		fp = fopen(fileName, "rb");
 		if (!fp)
 		{
-			char e[256]; sprintf(e, "Could not load the file %s", fileName); LogFatal(e);
+			LogFatal("Could not load the file %s", fileName);
 		}
 	
 		int ovResult = ov_open_callbacks(fp, &vorbisFile, 0, 0, OV_CALLBACKS_DEFAULT);
@@ -377,13 +84,12 @@ namespace ENGINE
 					LogFatal("ov_open_callbacks Error - Internal logic fault; indicates a bug or heap/stack corruption.");
 				} break;
 			}
-			return 0;
+			return false;
 		}
 	
 		vorbisInfo = ov_info(&vorbisFile, -1);
 	
-		char infoMsg[512];
-		sprintf(infoMsg, 
+		LogMessage(
 			"\nVorbis Encoder Version: %d\n"
 			"Channels: %d\n"
 			"Sampling Rate: %d\n"
@@ -397,25 +103,24 @@ namespace ENGINE
 			vorbisInfo->bitrate_lower,
 			vorbisInfo->bitrate_nominal
 			);
-		LogMessage(infoMsg);
-	
-		resource = static_cast<SAMPLE*>(malloc(sizeof(SAMPLE)));
-		if (!resource)
+		
+		allegroSample_ = static_cast<SAMPLE*>(malloc(sizeof(SAMPLE)));
+		if (0 == allegroSample_)
 		{
 			LogError("Could not allocate Allegro Audio Sample!");
 			ov_clear(&vorbisFile);
-			return 0;
+			return false;
 		}
 		
-		resource->bits			= 16;
-		resource->stereo 		= (vorbisInfo->channels > 1) ? 1 : 0;
-		resource->freq 			= vorbisInfo->rate;
-		resource->len 			= ov_pcm_total(&vorbisFile, -1);
+		allegroSample_->bits			= 16;
+		allegroSample_->stereo 			= (vorbisInfo->channels > 1) ? 1 : 0;
+		allegroSample_->freq 			= vorbisInfo->rate;
+		allegroSample_->len 			= ov_pcm_total(&vorbisFile, -1);
 		
-		resource->data			= malloc(sizeof(unsigned short[resource->len * 0x2]));
-		resource->loop_start 	= 0;
-		resource->loop_end 		= resource->len;
-		resource->priority		= 128;
+		allegroSample_->data			= malloc(sizeof(unsigned short[allegroSample_->len * 0x2]));
+		allegroSample_->loop_start 		= 0;
+		allegroSample_->loop_end 		= allegroSample_->len;
+		allegroSample_->priority		= 128;
 		
 		while((bytesOfDataRead = ov_read(&vorbisFile, 
 			dataBuffer, 
@@ -425,74 +130,338 @@ namespace ENGINE
 			0, 
 			&bitstream)))
 		{
-			unsigned char* dataPointer = static_cast<unsigned char*>(resource->data);
+			unsigned char* dataPointer = static_cast<unsigned char*>(allegroSample_->data);
 			memcpy(static_cast<unsigned char*>(dataOffset + dataPointer), dataBuffer, bytesOfDataRead);
 			dataOffset += bytesOfDataRead;
 		}
 		
 		ov_clear(&vorbisFile);
-		
-		return resource;
+		return true;
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Loads an OGG/Vorbis audio file sample.
-	* Do not use this for large audio files, this is for short sound effects.
-	* Returns a pointer to an OGG/Vorbis sample resource.
-	*/
-	AudioSampleResource_OGG* Audio::OpenSample_OGG(const char* fileName)
+	int AudioSampleResource_OGG::Play(int volume, int pan, int frequency, int loop)
 	{
-		AudioSampleResource_OGG* resource = new AudioSampleResource_OGG();
-		resource->allegroSample_ = Audio::CreateSample_OGG(fileName);
-		return resource;
+		return play_sample(allegroSample_, volume, pan, frequency, loop);
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Releases the memory allocated for an audio sample resource.
-	*/
-	void Audio::DestroySample_OGG(const AudioSampleResource_OGG* resource)
+	void AudioSampleResource_OGG::Modify(int volume, int pan, int frequency, int loop)
 	{
-		Audio::StopSample_OGG(resource);
-		destroy_sample(resource->allegroSample_);
-		delete resource;
+		adjust_sample(allegroSample_, volume, pan, frequency, loop);
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Plays an audio sample resource.
-	*/
-	int Audio::PlaySample_OGG(const AudioSampleResource_OGG* resource, int volume, int pan, int frequency, int loop)
+	void AudioSampleResource_OGG::Stop()
 	{
-		return play_sample(resource->allegroSample_, volume, pan, frequency, loop);
+		stop_sample(allegroSample_);
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Stops the audio sample resource from playing.
-	*/
-	void Audio::StopSample_OGG(const AudioSampleResource_OGG* resource)
+	void AudioSampleResource_OGG::Destroy()
 	{
-		stop_sample(resource->allegroSample_);
+		Stop();
+		if (0 != allegroSample_)
+		{
+			destroy_sample(allegroSample_);
+			allegroSample_ = 0;
+		}
 	}
 	
 	/**************************************************************************/
 	
-	/**
-	* Lets you alter the volume, pan, frequency, and looping status of an
-	* audio sample resource while it is playing. If the sample is not playing
-	* then this function will do nothing.
-	*/
-	void Audio::ModifySample_OGG(const AudioSampleResource_OGG* resource, int volume, int pan, int frequency, int loop)
+	SAMPLE* AudioSampleResource_OGG::GetAllegroSample()
 	{
-		adjust_sample(resource->allegroSample_, volume, pan, frequency, loop); 
+		return allegroSample_;
 	}
+	
+	/**************************************************************************/
+	
+	AudioStreamResource_OGG::AudioStreamResource_OGG() :
+		fileName_(0),
+		allegroAudioStream_(0),
+		currentBufferPage_(0),
+		playingBufferPage_(0),
+		stereo_(0),
+		frequency_(0),
+		bits_(0),
+		length_(0),
+		loop_(0),
+		volume_(0),
+		pan_(0),
+		stopped_(true)
+	{
+		memset(&vorbisFile_, 0, sizeof(OggVorbis_File));
+	}
+	
+	AudioStreamResource_OGG::~AudioStreamResource_OGG()
+	{
+		Destroy();
+	}
+	
+	bool AudioStreamResource_OGG::Load(const char* fileName, int volume, int pan, int loop)
+	{
+		fileName_ = strdup(fileName);
 
+		if (!fileName_)
+		{
+			return false;
+		}
+		
+		if (OpenStream())
+		{
+			Destroy();
+			return false;
+		}
+		
+		volume_ = volume;
+		pan_ 	= pan;
+		loop_ 	= loop;
+		
+		if (PlayStream())
+		{
+			Destroy();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**************************************************************************/
+	
+	int AudioStreamResource_OGG::Update()
+	{
+		if (stopped_)
+		{
+			Restart();
+		}
+		
+		unsigned char* data = static_cast<unsigned char*>(get_audio_stream_buffer(allegroAudioStream_));
+		
+		if (!data) 
+		{
+			if (currentBufferPage_ != playingBufferPage_) 
+			{
+				int read = ReadStreamData();
+				if (read < AUDIORESOURCE_OGG_BUFFER_SIZE)
+				{
+					return 0;
+				}
+				else 
+				{
+					return 1;
+				}
+			}
+			else 
+			{
+				return 1;
+			}
+		}
+		
+		playingBufferPage_++;
+		playingBufferPage_ %= AUDIORESOURCE_OGG_BUFFER_PAGES;
+		memcpy(data, buffer_[playingBufferPage_], AUDIORESOURCE_OGG_BUFFER_SIZE);
+		free_audio_stream_buffer(allegroAudioStream_);
+		
+		return 1;
+	}
+	
+	/**************************************************************************/
+	
+	void AudioStreamResource_OGG::Stop()
+	{
+		stop_audio_stream(allegroAudioStream_);
+		for (int index = 0; index < AUDIORESOURCE_OGG_BUFFER_PAGES; index++) 
+		{
+			free(buffer_[index]);
+			buffer_[index] = 0;
+		}
+		stopped_ = true;
+	}
+	
+	/**************************************************************************/
+	
+	int AudioStreamResource_OGG::Restart()
+	{
+		stopped_ = false;
+		return PlayStream();
+	}
+	
+	/**************************************************************************/
+	
+	void AudioStreamResource_OGG::Destroy()
+	{
+		if (!stopped_)
+		{
+			Stop();
+		}
+		
+		ov_clear(&vorbisFile_);
+		free(fileName_);
+	}
+	
+	/**************************************************************************/
+	
+	int AudioStreamResource_OGG::OpenStream()
+	{
+		FILE* fp;
+		vorbis_info* vorbisInfo;
+		fp = fopen(fileName_, "rb");
+		if (!fp)
+		{
+			LogFatal("Could not load the file %s", fileName_);
+		}
+	
+		int ovResult = ov_open_callbacks(fp, &vorbisFile_, 0, 0, OV_CALLBACKS_DEFAULT);
+		if (0 != ovResult)
+		{
+			switch(ovResult)
+			{
+				case OV_EREAD:
+				{
+					LogFatal("ov_open_callbacks Error - A read from media returned an error.");
+				} break;
+		
+				case OV_ENOTVORBIS:
+				{
+					LogFatal("ov_open_callbacks Error - Bitstream does not contain any Vorbis data.");
+				} break;
+		
+				case OV_EVERSION:
+				{
+					LogFatal("ov_open_callbacks Error - Vorbis version mismatch.");
+				} break;
+		
+				case OV_EBADHEADER:
+				{
+					LogFatal("ov_open_callbacks Error - Invalid Vorbis bitstream header.");
+				} break;
+		
+				case OV_EFAULT:
+				{
+					LogFatal("ov_open_callbacks Error - Internal logic fault; indicates a bug or heap/stack corruption.");
+				} break;
+			}
+			return 1;
+		}
+	
+		vorbisInfo = ov_info(&vorbisFile_, -1);
+	
+		LogMessage(
+			"\nVorbis Encoder Version: %d\n"
+			"Channels: %d\n"
+			"Sampling Rate: %d\n"
+			"Bitstream Upper Limit: %d\n"
+			"Bitstream Lower Limit: %d\n"
+			"Bitstream Average Bitrate: %d\n",
+			vorbisInfo->version,
+			vorbisInfo->channels,
+			vorbisInfo->rate,
+			vorbisInfo->bitrate_upper,
+			vorbisInfo->bitrate_lower,
+			vorbisInfo->bitrate_nominal
+			);
+
+		bits_ 		= 16;
+		stereo_ 	= (vorbisInfo->channels > 1) ? 1 : 0;
+		frequency_ 	= vorbisInfo->rate;
+		length_ 	= ov_pcm_total(&vorbisFile_, -1);
+		
+		return 0;
+	}
+	
+	/**************************************************************************/
+	
+	int AudioStreamResource_OGG::ReadStreamData()
+	{
+		int bytesOfDataRead = 0;
+		int bitstream = 0;
+		int page = currentBufferPage_;
+		
+		currentBufferPage_++;
+		currentBufferPage_ %= AUDIORESOURCE_OGG_BUFFER_PAGES;
+		memset(buffer_[page], 0, AUDIORESOURCE_OGG_BUFFER_SIZE);
+
+		while (bytesOfDataRead < AUDIORESOURCE_OGG_BUFFER_SIZE) 
+		{
+			int thisRead = ov_read(&vorbisFile_, 
+				buffer_[page] + bytesOfDataRead,
+				AUDIORESOURCE_OGG_BUFFER_SIZE - bytesOfDataRead,
+				0, 
+				2, 
+				0, 
+				&bitstream);
+				
+			if (0 == thisRead) 
+			{
+				if (loop_) 
+				{
+					ov_clear(&vorbisFile_);
+					if (OpenStream())
+					{
+						return -1;
+					}
+				}
+				else 
+				{
+					return bytesOfDataRead;
+				}
+			}
+			bytesOfDataRead += thisRead;
+		}
+		return bytesOfDataRead;
+	}
+	
+	int AudioStreamResource_OGG::PlayStream()
+	{
+		currentBufferPage_ 	= 0;
+		playingBufferPage_ 	= -1;
+
+		int bitsDiv = static_cast<int>((bits_ / (sizeof(char) * 8)));
+		
+		int bufferDiv = static_cast<int>(AUDIORESOURCE_OGG_BUFFER_SIZE / (stereo_ ? 2 : 1));
+		
+		bitsDiv = (bitsDiv <= 0) ? 1 : bitsDiv;
+		
+		allegroAudioStream_ = play_audio_stream(
+			static_cast<int>(bufferDiv / bitsDiv), 
+			bits_, 
+			stereo_, 
+			frequency_, 
+			volume_, 
+			pan_);
+
+		if (!allegroAudioStream_)
+		{
+			LogFatal("Failed to create Allegro Audio Stream!");
+		}
+		
+		for (int index = 0; index < AUDIORESOURCE_OGG_BUFFER_PAGES; index++)
+		{
+			buffer_[index] = static_cast<char*>(malloc(AUDIORESOURCE_OGG_BUFFER_SIZE));
+			
+			if (!buffer_[index])
+			{
+				LogError("Could not allocate audio buffer!");
+				Destroy();
+				return 1;
+			}
+			
+			if (ReadStreamData() < 0) 
+			{
+				return 1;
+			}
+		}
+		
+		stopped_ = false;
+		return 0;
+	}
+	
+	
 } // end namespace
 
 

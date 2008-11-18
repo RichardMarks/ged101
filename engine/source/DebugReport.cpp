@@ -14,6 +14,11 @@
 
 #include "DebugReport.h"
 
+/**
+ * \file DebugReport.cpp
+ * \brief Project Debugging Utility Library - Error Reporting Implementation
+ */
+
 namespace DEBUG
 {
 	DebugReportInfo::DebugReportInfo(const char* func, const char* file, int line) : 
@@ -84,11 +89,6 @@ namespace DEBUG
 	
 	/**************************************************************************/
 	
-	/**
-	* The Log method handles error reporting in a clean easy to use fashion.
-	* It is not recommended to use this method directly, but to make use of the
-	* supporting MACROs LogFatal, LogError, LogWarning, LogMessage
-	*/
 	void DebugReport::Log(unsigned int severity, const char* location, const char* message)
 	{
 		FILE* fp = 0;
