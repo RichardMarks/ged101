@@ -9,6 +9,11 @@
 #ifndef __GRAPHICSDEVICE_H__
 #define __GRAPHICSDEVICE_H__
 
+/**
+ * \file GraphicsDevice.h
+ * \brief Graphics Device Interface Module - Header
+ */
+ 
 namespace ENGINE
 {
 	// forward declare the classes we need to use
@@ -43,7 +48,7 @@ namespace ENGINE
 	const int GRAPHICS_DEVICE_FALLBACK_DISPLAY_HEIGHT = 480;
 	
 	//! lowest color depth that we will ever try to place the display into
-	const int GRAPHICS_DEVICE_FALLBACK_DISPLAY_BPP = 8;
+	const GraphicsDeviceDisplayDepth GRAPHICS_DEVICE_FALLBACK_DISPLAY_BPP = GraphicsDevice_8bit;
 	
 	/**
 	 * \class GraphicsDeviceSingleton
@@ -111,6 +116,21 @@ namespace ENGINE
 		 * \return true on success, false on failure
 		 */
 		bool SetDisplayColorDepth(GraphicsDeviceDisplayDepth bitsPerPixel = GraphicsDevice_16bit);
+		
+		/**
+		 * Attempts to setup the display resolution, color depth, and mode by calling the single \a SetDisplay functions.\n
+		 * \sa GraphicsDeviceSingleton::SetDisplayResolution(), GraphicsDeviceSingleton::SetDisplayColorDepth(), GraphicsDeviceSingleton::SetDisplayMode()
+		 * @param displayWidth is the width of the display resolution in pixels.
+		 * @param displayHeight is the height of the display resolution in pixels.
+		 * @param bitsPerPixel is the color depth. Possible values are GraphicsDevice_8bit, GraphicsDevice_16bit, GraphicsDevice_24bit, and GraphicsDevice_32bit
+		 * @param mode can be GraphicsDevice_Windowed or GraphicsDevice_Fullscreen
+		 * \return true on success, false on failure
+		 */
+		bool SetDisplay(
+			int displayWidth, 
+			int displayHeight, 
+			GraphicsDeviceDisplayDepth bitsPerPixel, 
+			GraphicsDeviceDisplayMode mode);
 		
 		/**
 		 * Get the state of the display mode, its going to be either windowed, or fullscreen.
