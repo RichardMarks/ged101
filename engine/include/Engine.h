@@ -15,7 +15,19 @@
  * The Game Engine Design 101 Project. (ged101)\n\n
  * A collection of reusable classes that when used properly provide a cross-platform library of functionality to
  * implement just about any game genre you can imagine... within limits of course.\n
- * ged101 is purely 2D at this time.
+ * ged101 is purely 2D at this time.\n\n
+ *
+ * The ged101 engine is comprised of several modules that perform different functions
+ * \li Graphics Module
+ * \sa ENGINE::ImageResource, ENGINE::GraphicsDevice
+ * \li Input Module
+ * \sa ENGINE::InputDevice
+ * \li Audio Module
+ * \sa ENGINE::AudioSampleResource_OGG, ENGINE::AudioStreamResource_OGG
+ * \li Object Module
+ * \sa ENGINE::GameObject, ENGINE::GameObjectGroup, ENGINE::GameObjectGroupManager
+ * \li System Module
+ * \sa DEBUG::DebugReport, DEBUG::DebugReportInfo 
  */
 
 #if 0
