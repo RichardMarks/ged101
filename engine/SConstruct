@@ -6,11 +6,14 @@ engine = ['engine',
 	Split("""
 	./source/ALBASEMain.cpp
 	./source/GraphicsDevice.cpp
+	./source/InputDevice.cpp
+	./source/InputDevice_Keyboard.cpp
+	./source/InputDevice_Mouse.cpp
+	./source/InputDevice_Joystick.cpp
 	./source/Audio_OGG.cpp
 	./source/DebugReport.cpp
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
-	./source/InputManager.cpp
 	./source/main.cpp
 	./source/CommunicationDevice.cpp
 	./source/GameObject.cpp
