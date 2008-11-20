@@ -5,6 +5,7 @@
 engine = ['engine', 
 	Split("""
 	./source/ALBASEMain.cpp
+	./source/GraphicsDevice.cpp
 	./source/Audio_OGG.cpp
 	./source/DebugReport.cpp
 	./source/GameTimer.cpp

@@ -40,7 +40,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void GraphicsDeviceSingleton::BeginScene(int color = 0)
+	void GraphicsDeviceSingleton::BeginScene(int color)
 	{
 		if ((0 == primaryDisplayBuffer_) || (0 == secondaryDisplayBuffer_))
 		{
@@ -148,12 +148,9 @@ namespace ENGINE
 			GraphicsDeviceDisplayDepth bitsPerPixel, 
 			GraphicsDeviceDisplayMode mode)
 	{
-		bool a, b, c;
-		a = b = c = false;
-		a = SetDisplayColorDepth(bitsPerPixel);
-		b = SetDisplayResolution(displayWidth, displayHeight);
-		c = SetDisplayMode(mode);
-		return a && b && c;
+		SetDisplayColorDepth(bitsPerPixel);
+		SetDisplayResolution(displayWidth, displayHeight);
+		return SetDisplayMode(mode);
 	}
 	
 	/**************************************************************************/
