@@ -18,11 +18,11 @@
  * The Project Debugging Utility Library is comprised of a few classes that make
  * error reporting an easy task. There are several levels of reporting severity.\n
  * Including
- * \li Fatal Errors
- * \li Non-fatal Error
- * \li Warnings
- * \li Generic Messages
- * \sa DBGREP_FATAL, DBGREP_ERROR, DBGREP_WARNING, DBGREP_MESSAGE
+ * \li Fatal Errors - errors are logged to a file, and the program exits to the OS.
+ * \li Non-fatal Error - errors are logged to a file, and the program tries to continue.
+ * \li Warnings - warnings are logged to a file, and the program continues.
+ * \li Generic Messages - messages are logged to a file, and the program continues.
+ * \sa DEBUG::DebugReport_Fatal, DEBUG::DebugReport_Error, DEBUG::DebugReport_Warning, DEBUG::DebugReport_Message
  * \n\n
  * The use of the classes should be restricted to using only the MACROs in your code.
  * \sa LogFatal, LogError, LogWarning, LogMessage
@@ -35,24 +35,29 @@
 
 namespace DEBUG
 {
-	//! writes an error to errors.txt and exits the game
-	const unsigned int DBGREP_FATAL 			= 0xAA;
+	/**
+	 * \enum ReportSeverityLevel
+	 * \brief Possible levels of severity for error reporting
+	 */
+	enum ReportSeverityLevel
+	{
+		//! writes an error to errors.txt and exits the game
+		DebugReport_Fatal,
+		//! writes an error to errors.txt
+		DebugReport_Error,
+		//! writes a warning to warnings.txt
+		DebugReport_Warning,
+		//! writes a message to messages.txt
+		DebugReport_Message
+	};
 	
-	//! writes an error to errors.txt
-	const unsigned int DBGREP_ERROR 			= 0xBB;
-	
-	//! writes a warning to warnings.txt
-	const unsigned int DBGREP_WARNING 			= 0xCC;
-	
-	//! writes a message to messages.txt
-	const unsigned int DBGREP_MESSAGE 			= 0xDD;
-	
-	//! 4096 characters max report length   
+	//! the maximum report length is limited to 4096 characters
 	const unsigned int DBGREP_MAX_REPORT_LENGTH = 0x1000; 
 	
 	/**
 	 * \class DebugReportInfo
-	 * \brief The DebugReportInfo class is a helper class that gives the functionality of a printf-style error reporting function. 
+	 * \brief A helper class that gives the functionality of a printf-style error reporting function. 
+	 *
 	 * The class stores the function, file and line information so that it may be used later when calling the real 
 	 * reporting functions from the DebugReport class.\n
 	 * Many thanks to RedSlash for this contribution.
@@ -70,37 +75,47 @@ namespace DEBUG
 		
 		/**
 		 * Formats a report based on the information provided and makes a call to the DebugReport::Log() function.
-		 * @param severity is the report severity level. This can be any of the values DBGREP_WARNING, DBGREP_FATAL, DBGREP_ERROR or DBGREP_MESSAGE.
+		 * @param severity is the report severity level. This can be any of the values DEBUG::DebugReport_Warning, DEBUG::DebugReport_Fatal, DEBUG::DebugReport_Error or DEBUG::DebugReport_Message.
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 * @param va is an optional number of arguments may be passed here to satisfy the previous printf-style C-string.
 		 */ 
-		void PrintLog(unsigned int severity, const char* message, va_list va);
+		void PrintLog(ReportSeverityLevel severity, const char* message, va_list va);
 		
 		/**
-		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_WARNING severity level.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DEBUG::DebugReport_Warning severity level.
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintWarning(const char* message, ...);
 		
 		/**
-		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_ERROR severity level.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DEBUG::DebugReport_Error severity level.
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintError(const char* message, ...);
 		
 		/**
-		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_FATAL severity level.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DEBUG::DebugReport_Fatal severity level.
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintFatal(const char* message, ...);
 		
 		/**
-		 * Makes a call to the DebugReportInfo::PrintLog() function with the DBGREP_MESSAGE severity level.
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DEBUG::DebugReport_Message severity level.
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintMessage(const char* message, ...);
 		
 	private:
+		/**
+		 * hidden copy constructor
+		 */
+		DebugReportInfo(const DebugReportInfo& rhs);
+		
+		/**
+		 * hidden assignment operator
+		 */
+		const DebugReportInfo& operator=(const DebugReportInfo& rhs);
+		
 		//! The name of the Function that the report is being made from. Usually the value of __PRETTY_FUNCTION__ or __func__.
 		const char* func_;
 		
@@ -114,9 +129,10 @@ namespace DEBUG
 	/**
 	 * \class DebugReport
 	 * \brief Handles the actual report logging functionality of the debug system.
+	 *
 	 * The DebugReport class only exposes the static DebugReport::Log() function.
 	 * Instances of the DebugReport class cannot be made.
-	 * Example use: DebugReport::Log(DBGREP_FATAL, "Engine::Initialize()", "Could not Initialize the Engine!");
+	 * Example use: DebugReport::Log(DEBUG::DebugReport_Fatal, "Engine::Initialize()", "Could not Initialize the Engine!");
 	 */
 	class DebugReport
 	{
@@ -125,20 +141,31 @@ namespace DEBUG
 		 * The DebugReport::Log function writes reports to errors.txt warnings.txt or messages.txt based on the report severity level.
 		 * It is not recommended to use this function directly, but to make use of the
 		 * supporting MACROs: LogFatal, LogError, LogWarning, LogMessage
-		 * @param severity is the report severity level. This can be any of the values DBGREP_WARNING, DBGREP_FATAL, DBGREP_ERROR or DBGREP_MESSAGE.
+		 * @param severity is the report severity level. This can be any of the values DEBUG::DebugReport_Warning, DEBUG::DebugReport_Fatal, DEBUG::DebugReport_Error or DEBUG::DebugReport_Message.
 		 * @param location is the name of the File that the report is being made in. Usually the value of __FILE__.
 		 * @param message is the message to be reported. This should have been created using the functions in the DebugReportInfo class.
 		 */
 		static void Log(
-			unsigned int severity = DBGREP_WARNING,
+			ReportSeverityLevel severity = DebugReport_Warning,
 			const char* location = "",
 			const char* message = "");
 
 	private:
-		DebugReport()
-		{
-			 //! We NEVER need to create an instance of this class.
-		};
+		/**
+		 * hidden constructor
+		 */
+		DebugReport();
+		
+		/**
+		 * hidden copy constructor
+		 */
+		DebugReport(const DebugReport& rhs);
+		
+		/**
+		 * hidden assignment operator
+		 */
+		const DebugReport& operator=(const DebugReport& rhs);
+		
 	}; // end class
 
 	/**

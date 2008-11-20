@@ -30,11 +30,11 @@ namespace DEBUG
 	
 	/**************************************************************************/
 	
-	void DebugReportInfo::PrintLog(unsigned int severity, const char* message, va_list va)
+	void DebugReportInfo::PrintLog(ReportSeverityLevel severity, const char* message, va_list va)
 	{
 		char logBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH];
 
-		snprintf(logBuffer,DEBUG::DBGREP_MAX_REPORT_LENGTH,
+		snprintf(logBuffer, DEBUG::DBGREP_MAX_REPORT_LENGTH,
 			"      Function: %s\n\t"
 			"          Line: %d\n\t"
 			"Report Details:\n\n\t\t",
@@ -53,7 +53,7 @@ namespace DEBUG
 	{
 		va_list va;
 		va_start(va, message);
-		PrintLog(DBGREP_WARNING, message, va);
+		PrintLog(DebugReport_Warning, message, va);
 		va_end(va);
 	}
 	
@@ -63,7 +63,7 @@ namespace DEBUG
 	{
 		va_list va;
 		va_start(va, message);
-		PrintLog(DBGREP_ERROR, message, va);
+		PrintLog(DebugReport_Error, message, va);
 		va_end(va);
 	}
 	
@@ -73,7 +73,7 @@ namespace DEBUG
 	{
 		va_list va;
 		va_start(va, message);
-		PrintLog(DBGREP_FATAL, message, va);
+		PrintLog(DebugReport_Fatal, message, va);
 		va_end(va);
 	}
 		
@@ -83,13 +83,13 @@ namespace DEBUG
 	{
 		va_list va;
 		va_start(va, message);
-		PrintLog(DBGREP_MESSAGE, message, va);
+		PrintLog(DebugReport_Message, message, va);
 		va_end(va);
 	}
 	
 	/**************************************************************************/
 	
-	void DebugReport::Log(unsigned int severity, const char* location, const char* message)
+	void DebugReport::Log(ReportSeverityLevel severity, const char* location, const char* message)
 	{
 		FILE* fp = 0;
 		
@@ -103,7 +103,7 @@ namespace DEBUG
 		switch(severity)
 		{
 			// this is a fatal error. process execution will cease after this call
-			case DBGREP_FATAL:
+			case DebugReport_Fatal:
 			{
 				fp = fopen("errors.txt", "a");
 				if (fp)
@@ -121,7 +121,7 @@ namespace DEBUG
 			} break;
 			
 			// just an error. it is logged and process execution continues.
-			case DBGREP_ERROR:
+			case DebugReport_Error:
 			{
 				fp = fopen("errors.txt", "a");
 				if (fp)
@@ -138,7 +138,7 @@ namespace DEBUG
 			} break;
 			
 			// a warning. it is logged and process execution continues.
-			case DBGREP_WARNING:
+			case DebugReport_Warning:
 			{
 				// open warnings.txt and write the message to it
 				fp = fopen("warnings.txt", "a");
@@ -156,7 +156,7 @@ namespace DEBUG
 			} break;
 			
 			// a message. it is logged and process execution continues.
-			case DBGREP_MESSAGE:
+			case DebugReport_Message:
 			{
 				// open messages.txt and write the message to it
 				fp = fopen("messages.txt", "a");
@@ -176,6 +176,13 @@ namespace DEBUG
 			default: break;
 		}
 	}
+	
+	/**************************************************************************/
+	
+	DebugReport::DebugReport()
+	{
+		// We NEVER need to create an instance of this class.
+	}	
 	
 } // end namespace
 
