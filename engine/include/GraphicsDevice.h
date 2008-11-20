@@ -36,6 +36,7 @@ namespace ENGINE
 	enum GraphicsDeviceDisplayDepth
 	{
 		GraphicsDevice_8bit = 8,
+		GraphicsDevice_15bit = 15,
 		GraphicsDevice_16bit = 16,
 		GraphicsDevice_24bit = 24,
 		GraphicsDevice_32bit = 32
@@ -105,17 +106,15 @@ namespace ENGINE
 		 * This function requires that the display color depth have already been set.
 		 * @param displayWidth is the width of the display resolution in pixels.
 		 * @param displayHeight is the height of the display resolution in pixels.
-		 * \return true on success, false on failure
 		 */
-		bool SetDisplayResolution(int displayWidth, int displayHeight);
+		void SetDisplayResolution(int displayWidth, int displayHeight);
 		
 		/**
 		 * Attempts to set the display color depth.
 		 * When called with no parameter, the default of 16 bits per pixel is used.
 		 * @param bitsPerPixel is the color depth. Possible values are GraphicsDevice_8bit, GraphicsDevice_16bit, GraphicsDevice_24bit, and GraphicsDevice_32bit
-		 * \return true on success, false on failure
 		 */
-		bool SetDisplayColorDepth(GraphicsDeviceDisplayDepth bitsPerPixel = GraphicsDevice_16bit);
+		void SetDisplayColorDepth(GraphicsDeviceDisplayDepth bitsPerPixel = GraphicsDevice_16bit);
 		
 		/**
 		 * Attempts to setup the display resolution, color depth, and mode by calling the single \a SetDisplay functions.\n

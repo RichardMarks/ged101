@@ -152,6 +152,13 @@ namespace ENGINE
 	{
 		if (0 != allegroBitmap_)
 		{
+			// if the bitmap is the allegro screen bitmap, then we do not destroy it!
+			if (screen == allegroBitmap_)
+			{
+				allegroBitmap_ = 0;
+				return;
+			}
+			
 			destroy_bitmap(allegroBitmap_);
 			allegroBitmap_ = 0;
 		}

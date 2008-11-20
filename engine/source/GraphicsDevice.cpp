@@ -42,12 +42,26 @@ namespace ENGINE
 	
 	void GraphicsDeviceSingleton::BeginScene(int color = 0)
 	{
+		if ((0 == primaryDisplayBuffer_) || (0 == secondaryDisplayBuffer_))
+		{
+			LogFatal("Attempted to call BeginScene on an invalid Graphics Device!");
+			return;
+		}
+		
+		secondaryDisplayBuffer_->Clear(color);
 	}
 	
 	/**************************************************************************/
 	
 	void GraphicsDeviceSingleton::EndScene()
 	{
+		if ((0 == primaryDisplayBuffer_) || (0 == secondaryDisplayBuffer_))
+		{
+			LogFatal("Attempted to call EndScene on an invalid Graphics Device!");
+			return;
+		}
+		
+		secondaryDisplayBuffer_->Blit(primaryDisplayBuffer_, 0, 0, 0, 0, displayWidth_, displayHeight_);
 	}
 	
 	/**************************************************************************/
@@ -55,18 +69,75 @@ namespace ENGINE
 	bool GraphicsDeviceSingleton::SetDisplayMode(GraphicsDeviceDisplayMode mode)
 	{
 		displayMode_ = mode;
+		
+		int gfx = GFX_TEXT;
+		
+		if (GraphicsDevice_Windowed == displayMode_)
+		{
+			gfx = GFX_AUTODETECT_WINDOWED;
+		}
+		else if (GraphicsDevice_Fullscreen == displayMode_)
+		{
+			gfx = GFX_AUTODETECT_FULLSCREEN;
+		}
+		
+		// try to set the given mode
+		int result = 0;
+		
+		result = set_gfx_mode(gfx, displayWidth_, displayHeight_, 0, 0);
+		
+		if (0 == result)
+		{
+			// we are good
+			
+			// make sure we release the previous buffers
+			Destroy();
+			
+			// create the buffers
+			primaryDisplayBuffer_ = new ImageResource(screen);
+			
+			secondaryDisplayBuffer_ = new ImageResource(displayWidth_, displayHeight_);
+			
+			return true;
+		}
+		else if (result < 0)
+		{
+			LogFatal("Could not set the display mode to %dx%d %s resolution @ %dbits per pixel!", 
+				displayWidth_, 
+				displayHeight_,
+				(GraphicsDevice_Windowed == displayMode_) ? "windowed" : "fullscreen",
+				static_cast<int>(displayBitsPerPixel_)); 		
+		}
+		
+		return false;
 	}
 	
 	/**************************************************************************/
 	
-	bool GraphicsDeviceSingleton::SetDisplayResolution(int displayWidth, int displayHeight)
+	void GraphicsDeviceSingleton::SetDisplayResolution(int displayWidth, int displayHeight)
 	{
+		displayWidth_ = displayWidth;
+		displayHeight_ = displayHeight_;
 	}
 	
 	/**************************************************************************/
 	
-	bool GraphicsDeviceSingleton::SetDisplayColorDepth(GraphicsDeviceDisplayDepth bitsPerPixel)
+	void GraphicsDeviceSingleton::SetDisplayColorDepth(GraphicsDeviceDisplayDepth bitsPerPixel)
 	{
+		// set the class bpp to the passed bpp
+		displayBitsPerPixel_ = bitsPerPixel;
+		
+		// actually set the bpp
+		int bpp = 8;
+		switch(displayBitsPerPixel_)
+		{
+			case GraphicsDevice_8bit:  { } break;
+			case GraphicsDevice_15bit: { bpp = 15; } break;
+			case GraphicsDevice_16bit: { bpp = 16; } break;
+			case GraphicsDevice_24bit: { bpp = 24; } break;
+			case GraphicsDevice_32bit: { bpp = 32; } break;
+		}
+		set_color_depth(bpp);
 	}
 	
 	/**************************************************************************/
@@ -77,42 +148,54 @@ namespace ENGINE
 			GraphicsDeviceDisplayDepth bitsPerPixel, 
 			GraphicsDeviceDisplayMode mode)
 	{
+		bool a, b, c;
+		a = b = c = false;
+		a = SetDisplayColorDepth(bitsPerPixel);
+		b = SetDisplayResolution(displayWidth, displayHeight);
+		c = SetDisplayMode(mode);
+		return a && b && c;
 	}
 	
 	/**************************************************************************/
 	
 	GraphicsDeviceDisplayMode GraphicsDeviceSingleton::GetDisplayMode()
 	{
+		return displayMode_;
 	}
 	
 	/**************************************************************************/
 	
 	int GraphicsDeviceSingleton::GetDisplayWidth()
 	{
+		return displayWidth_;
 	}
 	
 	/**************************************************************************/
 	
 	int GraphicsDeviceSingleton::GetDisplayHeight()
 	{
+		return displayHeight_;
 	}
 	
 	/**************************************************************************/
 	
 	GraphicsDeviceDisplayDepth GraphicsDeviceSingleton::GetDisplayBitsPerPixel()
 	{
+		return displayBitsPerPixel_;
 	}
 	
 	/**************************************************************************/
 	
 	ImageResource* GraphicsDeviceSingleton::GetPrimaryDisplayBuffer()
 	{
+		return primaryDisplayBuffer_;
 	}
 	
 	/**************************************************************************/
 	
 	ImageResource* GraphicsDeviceSingleton::GetSecondaryDisplayBuffer()
 	{
+		return secondaryDisplayBuffer_;
 	}
 	
 	/**************************************************************************/
