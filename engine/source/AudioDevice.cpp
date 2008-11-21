@@ -8,7 +8,7 @@
 
 /**
  * \file AudioDevice.cpp
- * \brief Input Device Interface Module - Implementation 
+ * \brief Audio Device Interface Module - Implementation 
  */
 
 // include the common headers

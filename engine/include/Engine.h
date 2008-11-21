@@ -23,11 +23,11 @@
  * \li Input Module
  * \sa ENGINE::InputDevice
  * \li Audio Module
- * \sa ENGINE::AudioSampleResource_OGG, ENGINE::AudioStreamResource_OGG
+ * \sa ENGINE::AudioDevice, ENGINE::AudioSampleResource_OGG, ENGINE::AudioStreamResource_OGG
  * \li Object Module
  * \sa ENGINE::GameObject, ENGINE::GameObjectGroup, ENGINE::GameObjectGroupManager
  * \li System Module
- * \sa DEBUG::DebugReport, DEBUG::DebugReportInfo 
+ * \sa ENGINE::GameTimer, DEBUG::DebugReport, DEBUG::DebugReportInfo 
  */
 
 #if 0

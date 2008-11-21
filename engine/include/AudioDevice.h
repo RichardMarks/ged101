@@ -8,7 +8,7 @@
 
 /**
  * \file AudioDevice.h
- * \brief Input Device Interface Module - Header 
+ * \brief Audio Device Interface Module - Header 
  */
 
 #ifndef __AUDIODEVICE_H__

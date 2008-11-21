@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: A cross-platform compatible class for handling proper game timing
 
+/**
+ * \file GameTimer.cpp
+ * \brief Cross-platform high-resolution timer class - Implementation
+ */
+ 
 // only non-windows platforms use this
 #if !defined(WIN32)
 #include <ctime>

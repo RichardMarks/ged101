@@ -6,14 +6,27 @@
 // Author: Richard Marks
 // Purpose: A cross-platform compatible class for handling proper game timing
 
+/**
+ * \file GameTimer.h
+ * \brief Cross-platform high-resolution timer class - Header
+ */
+ 
 #ifndef __GAMETIMER_H__
 #define __GAMETIMER_H__
 
+/**
+ * \def GameTimerMethodReturnType
+ * \brief depending on the OS that the code is being compiled for, this will be either a linux data structure or a simple integer
+ */
 // only non-windows platforms use this
 #if !defined(WIN32)
 #define GameTimerMethodReturnType time_t
+
+//! we define the __time_t data type so we don't need to include the linux time headers in our header
 typedef long int __time_t;
+//! we define the time_t data type so we don't need to include the linux time headers in our header
 typedef __time_t time_t;
+//! we declare the timeval data type as a struct so we don't need to include the linux time headers in our header
 struct timeval;
 #else
 // this is for the windows platform
@@ -23,68 +36,79 @@ struct timeval;
 namespace ENGINE
 {
 	/**
-	* This is a high-resolution timer that wraps up the tricky code needed to
-	* implement proper timing in your games. And it is cross-platform as well!
-	*
-	* The GameTimerSingleton is clearly implemented as a singleton class.
-	* Which means that there is only ever a single instance of the class at all times.
-	* You access the methods by using the macro "GameTimer" and a pointer.
-	*
-	* such as: time_t ms = GameTimer->GetMilliseconds();
-	*
-	*/
+	 * \class GameTimerSingleton
+	 * \brief A cross-platform compatible class for handling proper game timing
+	 *
+	 * This is a high-resolution timer that wraps up the tricky code needed to
+	 * implement proper timing in your games. And it is cross-platform as well!
+	 *
+	 * The GameTimerSingleton is clearly implemented as a singleton class.
+	 * Which means that there is only ever a single instance of the class at all times.
+	 * You access the methods by using the macro "GameTimer" and a pointer.
+	 *
+	 * such as: time_t ms = GameTimer->GetMilliseconds();
+	 */
 	class GameTimerSingleton
 	{
 	public:
 		// public members should be declared here
 		
 		/**
-		* As was stated before, this class is a singleton, and this is the static method
-		* that returns the pointer to the singleton instance of the class.
-		*/
+		 * \return a pointer to the singleton class
+		 */
 		static GameTimerSingleton* GetInstance();
 		
 		/**
-		* The class destructor handle releasing allocated resources
-		*/
+		 * destructor De-allocates any allocated memory
+		 */
 		~GameTimerSingleton();
 		
 		/**
-		* Returns the number of microseconds passed since the last call.
-		*
-		* There are approximately 1000 microseconds in 1 millisecond.
-		*/
+		 * Get the number of microseconds passed since the last call.\n
+		 * There are approximately 1000 microseconds in 1 millisecond.
+		 * \return the number of microseconds passed since the last call.
+		 */
 		GameTimerMethodReturnType GetMicroseconds();
 		
 		/**
-		* Returns the number of milliseconds passed since the last call.
-		*
-		* There are approximately 1000 milliseconds in 1 second.
-		*/
+		 * Get the number of milliseconds passed since the last call.\n
+		 * There are approximately 1000 milliseconds in 1 second.
+		 * \return the number of milliseconds passed since the last call.
+		 */
 		GameTimerMethodReturnType GetMilliseconds();
 		
 		/**
-		* Returns the number of seconds passed since the last call.
-		*/
+		 * \return the number of seconds passed since the last call.
+		 */
 		GameTimerMethodReturnType GetSeconds();
 		
 	private:
 		// private members should be declared here
 		/**
-		* The class constructor is private because this is a singleton.
-		*/
+		 * default constructor is hidden
+		 */
 		GameTimerSingleton();
 		
 		/**
-		* The copy constructor and assignment operator are private as well.
-		*/
+		 * The copy constructor is hidden
+		 */
 		GameTimerSingleton(const GameTimerSingleton& rhs);
+		
+		/**
+		 * The assignment operator is hidden
+		 */
 		GameTimerSingleton& operator=(const GameTimerSingleton& rhs);
 		
 		/**
-		* startTime_ is the time when the timer was created.
-		* currentTime_ is the current time of the timer.
-		*/
+		 * \var startTime_ 
+		 * \brief the time when the timer was created.
+		 */
+		 
+		/**
+		 * \var currentTime_ 
+		 * \brief the current time of the timer.
+		 */
+		 
 // only non-windows platforms use this
 #if !defined(WIN32)
 		timeval* startTime_;
@@ -97,8 +121,9 @@ namespace ENGINE
 	}; // end class
 
 /**
-* The GameTimer MACRO is the preferred way to use the timer class singleton pointer.
-*/
+ * \def GameTimer
+ * \brief an alias for GameTimerSingleton::GetInstance()
+ */
 #define GameTimer GameTimerSingleton::GetInstance()
 } // end namespace
 #endif
