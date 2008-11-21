@@ -10,6 +10,7 @@ engine = ['engine',
 	./source/InputDevice_Keyboard.cpp
 	./source/InputDevice_Mouse.cpp
 	./source/InputDevice_Joystick.cpp
+	./source/AudioDevice.cpp
 	./source/Audio_OGG.cpp
 	./source/DebugReport.cpp
 	./source/GameTimer.cpp
