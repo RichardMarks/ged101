@@ -19,7 +19,7 @@
  *
  * The ged101 engine is comprised of several modules that perform different functions
  * \li Graphics Module
- * \sa ENGINE::ImageResource, ENGINE::GraphicsDevice, ENGINE::BitmapFont
+ * \sa ENGINE::ImageResource, ENGINE::GraphicsDevice, ENGINE::BitmapFont, ENGINE::AnimationFrame, ENGINE::AnimationSequence
  * \li Input Module
  * \sa ENGINE::InputDevice
  * \li Audio Module

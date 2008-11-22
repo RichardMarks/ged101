@@ -17,6 +17,8 @@ engine = ['engine',
 	./source/DebugReport.cpp
 	./source/ImageResource.cpp
 	./source/BitmapFont.cpp
+	./source/AnimationFrame.cpp
+	./source/AnimationSequence.cpp
 	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
