@@ -2,9 +2,11 @@
 # SConstruct
 # scons build script
 
+#	./source/ALBASEMain.cpp
+
 engine = ['engine', 
 	Split("""
-	./source/ALBASEMain.cpp
+
 	./source/GraphicsDevice.cpp
 	./source/InputDevice.cpp
 	./source/InputDevice_Keyboard.cpp
@@ -13,6 +15,9 @@ engine = ['engine',
 	./source/AudioDevice.cpp
 	./source/Audio_OGG.cpp
 	./source/DebugReport.cpp
+	./source/ImageResource.cpp
+	./source/BitmapFont.cpp
+	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
 	./source/main.cpp

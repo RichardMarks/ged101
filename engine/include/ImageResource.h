@@ -40,7 +40,7 @@ namespace ENGINE
 		 * alternate constructor, lets you create a new image by copying an Allegro BITMAP as a source.
 		 * @param source is an Allegro BITMAP pointer to an image to copy from.
 		 */
-		ImageResource(BITMAP* source = 0);
+		ImageResource(BITMAP* source);
 		
 		/**
 		 * destructor calls Destroy to release allocated memory
@@ -305,6 +305,16 @@ namespace ENGINE
 		 * \return a pointer to the Allegro BITMAP; ImageResource::allegroBitmap_ or 0 if the image is invalid.
 		 */
 		BITMAP* GetBitmap();
+		
+		/**
+		 * \return the width of the image in pixels
+		 */
+		int GetWidth();
+		
+		/**
+		 * \return the height of the image in pixels
+		 */
+		int GetHeight();
 		
 	private:
 		// private members should be declared here

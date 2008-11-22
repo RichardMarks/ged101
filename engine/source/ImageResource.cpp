@@ -257,14 +257,14 @@ namespace ENGINE
 	// pixel access
 	int ImageResource::GetPixel(int x, int y)
 	{
-		return get_pixel(allegroBitmap_, x, y);
+		return getpixel(allegroBitmap_, x, y);
 	}
 	
 	/**************************************************************************/
 	
 	void ImageResource::SetPixel(int x, int y, int color)
 	{
-		set_pixel(allegroBitmap_, x, y, color);
+		putpixel(allegroBitmap_, x, y, color);
 	}
 	
 	/**************************************************************************/
@@ -519,6 +519,20 @@ namespace ENGINE
 	BITMAP* ImageResource::GetBitmap()
 	{
 		return allegroBitmap_;
+	}
+	
+	/**************************************************************************/
+	
+	int ImageResource::GetWidth()
+	{
+		return allegroBitmap_->w;
+	}
+	
+	/**************************************************************************/
+	
+	int ImageResource::GetHeight()
+	{
+		return allegroBitmap_->h;
 	}
 
 } // end namespace
