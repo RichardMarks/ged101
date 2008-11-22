@@ -20,6 +20,8 @@ engine = ['engine',
 	./source/AnimationFrame.cpp
 	./source/AnimationSequence.cpp
 	
+	./source/Tile.cpp
+	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
 	./source/main.cpp
