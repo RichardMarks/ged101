@@ -33,6 +33,8 @@ namespace ENGINE
 	
 		/**
 		 * default constructor
+		 * Initializes the font structure with the default font from an x86 BIOS for mode 0x13\n
+		 * An 8x8 font containing all 256 characters 128 ASCII and 128 extended ASCII characters
 		 */
 		BitmapFont();
 		
