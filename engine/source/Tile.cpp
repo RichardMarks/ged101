@@ -55,6 +55,14 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
+	void Tile::Clone(Tile* source)
+	{
+		tileValue_ = source->tileValue_;
+		tileSolid_ = source->tileSolid_;
+	}
+	
+	/**************************************************************************/
+	
 	unsigned int Tile::GetValue()
 	{
 		return tileValue_;

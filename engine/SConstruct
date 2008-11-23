@@ -21,6 +21,7 @@ engine = ['engine',
 	./source/AnimationSequence.cpp
 	
 	./source/Tile.cpp
+	./source/TileMap.cpp
 	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp

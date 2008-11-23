@@ -57,6 +57,12 @@ namespace ENGINE
 		void SetSolid(bool isSolid = true);
 		
 		/**
+		 * Clones the properties of another tile
+		 * @param source is a pointer to the ENGINE::Tile structure to clone from
+		 */
+		 void Clone(Tile* source);
+		
+		/**
 		 * Gets the value of the tile
 		 * \return an unsigned integer value between 0 and 65535 
 		 */
@@ -86,6 +92,17 @@ namespace ENGINE
 		 * \brief true if the tile is solid, and false if it is not
 		 */
 		bool tileSolid_;
+	
+	private:
+		/**
+		 * hidden copy constructor -- we don't want copies being made. Use the Tile::Clone() function
+		 */
+		Tile(const Tile& rhs);
+		
+		/**
+		 * hidden assignment operator
+		 */
+		const Tile& operator=(const Tile& rhs);
 	}; // end class
 
 } // end namespace
