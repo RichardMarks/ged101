@@ -1,54 +1,59 @@
 
 // CODESTYLE: v2.0
 
-// ALBASEMain.cpp
-// Project: Allegro Base Project (ALBASE)
+// MainSystem.cpp
+// Project: Game Engine Design 101 (ENGINE)
 // Author: Richard Marks
-// Purpose: An empty project for starting a game based on Allegro
+// Purpose: Initialization class for the ged101 engine
 
+/**
+ * \file MainSystem.cpp
+ * \brief Main ged101 Engine Module - Implementation
+ */
+ 
 // include the common headers
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cstdarg>
 
 // include Allegro
 #include <allegro.h>
 
 // include the complementing header
-#include "ALBASEMain.h"
+#include "MainSystem.h"
 
-// include the error reporting header
-#include "DebugReport.h"
+// include the engine header
+#include "Engine.h"
 
 // include the game header
 #include "Game.h"
 
-// include the game state manager header
-#include "GameStateManager.h"
-
-namespace ALBASE
+namespace ENGINE
 {
-	ALBASEMain::ALBASEMain() :
-		backBuffer_(0)
+	MainSystemSingleton* MainSystemSingleton::GetInstance()
+	{
+		static MainSystemSingleton instance;
+		return &instance;
+	}
+	
+	/**************************************************************************/
+	
+	MainSystemSingleton::MainSystemSingleton()
 	{
 		// implement class constructor here
 	} // end constructor
 	
 	/**************************************************************************/
 	
-	ALBASEMain::~ALBASEMain()
+	MainSystemSingleton::~MainSystemSingleton()
 	{
 		// implement class destructor here
-		if (0 != backBuffer_)
-		{
-			destroy_bitmap(backBuffer_);
-			backBuffer_ = 0;
-		}
 	} // end destructor
 	
 	/**************************************************************************/
 	
-	int ALBASEMain::Initialize(int argc, char* argv[])
+	int MainSystemSingleton::Initialize(int argc, char* argv[])
 	{
 		// implement class initialization here
 		LogMessage("\nCCPS Solutions Presents\n\n"
@@ -105,63 +110,45 @@ namespace ALBASE
 			LogFatal("Could not install Allegro Timer driver!");
 		}
 		
+		// setup the graphics device
+		GraphicsDevice->SetDisplay(
+			640, 
+			480, 
+			GraphicsDevice_24bit, 
+			(useFullscreen) ? GraphicsDevice_Fullscreen : GraphicsDevice_Windowed);
 		
-		
-		
-		
-		// set the video mode
-		set_color_depth(24);
-		int displayMode = (useFullscreen) ? GFX_AUTODETECT_FULLSCREEN : GFX_AUTODETECT_WINDOWED;
-		if (set_gfx_mode(displayMode, 640, 480, 0, 0) < 0)
-		{
-			LogFatal("Could not set the display mode to 640x480 at 24bpp!");
-		}
-		
-		// create the backbuffer surface
-		backBuffer_ = create_bitmap(SCREEN_W, SCREEN_H);
-		if (0 == backBuffer_)
-		{
-			LogFatal("Could not create the backbuffer surface!");
-		}
-		
-		// install the Allegro audio driver
+		// setup the audio device
 		if (useSound)
 		{
-			if (install_sound(DIGI_AUTODETECT, MIDI_NONE, 0) < 0)
-			{
-				LogFatal("Could not install the Allegro audio driver! Try using the --quiet command line flag.");
-			}
+			AudioDevice->Initialize();
 		}
 		
-		GAME::GameInstance->SetRenderTarget(backBuffer_);
+		// setup the input device
+		InputDevice->Initialize(INIT_ALLDEVICES);
+		
+		// call the game setup functions
 		GAME::GameInstance->Initialize();
 		LogMessage("Initialization Complete.");
 		
 		return 0;
-	} // end initialization
+	}
 	
 	/**************************************************************************/
 	
-	int ALBASEMain::Execute()
+	int MainSystemSingleton::Execute()
 	{
 		// implement class main loop here
 		
 		// if there are still states in the game state stack
-		while(!ENGINE::GameStateManager->Empty())
+		while(!GameStateManager->Empty())
 		{
 			// process the state
-			ENGINE::GameStateManager->ExecuteNextState();
+			GameStateManager->ExecuteNextState();
 		}
 		
 		return 0;
-	} // end main code
-	
-	/**************************************************************************/
-	
-	BITMAP* ALBASEMain::GetBackBuffer()
-	{
-		return backBuffer_;
 	}
+	
 } // end namespace
 
 

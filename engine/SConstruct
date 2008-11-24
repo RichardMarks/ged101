@@ -2,11 +2,12 @@
 # SConstruct
 # scons build script
 
-#	./source/ALBASEMain.cpp
+# libged101core.a -	ged101 core engine library
 
-engine = ['engine', 
+engine = ['ged101core', 
 	Split("""
-
+	./source/DebugReport.cpp
+	./source/MainSystem.cpp
 	./source/GraphicsDevice.cpp
 	./source/InputDevice.cpp
 	./source/InputDevice_Keyboard.cpp
@@ -14,22 +15,22 @@ engine = ['engine',
 	./source/InputDevice_Joystick.cpp
 	./source/AudioDevice.cpp
 	./source/Audio_OGG.cpp
-	./source/DebugReport.cpp
+	
+	
 	./source/ImageResource.cpp
 	./source/BitmapFont.cpp
 	./source/AnimationFrame.cpp
 	./source/AnimationSequence.cpp
 	
-	./source/Tile.cpp
-	./source/TileMap.cpp
-	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
-	./source/main.cpp
 	./source/CommunicationDevice.cpp
+	
 	./source/GameObject.cpp
 	./source/GameObjectGroup.cpp
 	./source/GameObjectGroupManager.cpp
+
+	./source/main.cpp
 	""")]
 
 ################################################################################

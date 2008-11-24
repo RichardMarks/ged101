@@ -27,16 +27,12 @@
  * \li Object Module
  * \sa ENGINE::GameObject, ENGINE::GameObjectGroup, ENGINE::GameObjectGroupManager
  * \li System Module
- * \sa ENGINE::GameTimer, DEBUG::DebugReport, DEBUG::DebugReportInfo 
+ * \sa ENGINE::MainSystem, ENGINE::GameTimer, DEBUG::DebugReport, DEBUG::DebugReportInfo 
  */
 
 #if 0
 // add any documentation for the namespaces here
 #endif
-/**
- * \namespace ALBASE
- * \brief Initializes Allegro and handles setting up the main game instance.
- */
 
 /** 
  * \namespace DEBUG
@@ -54,19 +50,35 @@
  */
 
 
-
-
 // include the ged101 headers
-#include "DebugReport.h"
-#include "InputManager.h"
-#include "CommunicationDevice.h"
-#include "Audio.h"
+
+// devices
+#include "GraphicsDevice.h"
+#include "AudioDevice.h"
+#include "InputDevice.h"
+
+// graphics module
 #include "ImageResource.h"
-#include "GameTimer.h"
+#include "BitmapFont.h"
+#include "AnimationFrame.h"
+#include "AnimationSequence.h"
+#include "Tile.h"
+#include "TileMap.h"
+
+// audio module
+#include "Audio_OGG.h"
+
+// object module
 #include "GameObject.h"
 #include "GameObjectGroup.h"
 #include "GameObjectGroupManager.h"
+#include "CommunicationDevice.h"
+
+// system module
+#include "GameTimer.h"
 #include "GameStateManager.h"
+#include "DebugReport.h"
 
 #endif
+
 
