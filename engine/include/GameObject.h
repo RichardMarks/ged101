@@ -6,37 +6,54 @@
 // Author: Richard Marks
 // Purpose: The base abstract class that all game objects inherit from
 
+/**
+ * \file GameObject.h
+ * \brief Game Object Module - Header
+ */
+ 
 #ifndef __GAMEOBJECT_H__
 #define __GAMEOBJECT_H__
 
 namespace ENGINE
 {
-	class CommunicationDevice;
+	/**
+	 * \class GameObject
+	 * \brief The base abstract class that all game objects inherit from
+	 */
 	class GameObject
 	{
 	public:
-		// public members should be declared here
 		
-		// class constructor
+		/**
+		 * class constructor
+		 */
 		GameObject();
 		
-		// class destructor
+		/**
+		 * class destructor
+		 */
 		virtual ~GameObject();
 		
-		// creates the object
-		virtual void Create(CommunicationDevice* comDevice) = 0;
+		/**
+		 * creates the object
+		 */
+		virtual void Create() = 0;
 		
-		// updates the object
+		/**
+		 * updates the object
+		 */
 		virtual void Update() = 0;
 		
-		// renders the object
+		/**
+		 * renders the object
+		 */
 		virtual void Render() = 0;
 		
-		// destroys the object
+		/**
+		 * destroys the object
+		 */
 		virtual void Destroy() = 0;
 		
-		// object to game communication device pointer
-		CommunicationDevice* comDevice_;
 	}; // end class
 
 } // end namespace

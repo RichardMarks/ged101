@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: manages a list of game object groups either by ID or name
 
+/**
+ * \file GameObjectGroupManager.h
+ * \brief Game Object Module - Header
+ */
+
 #ifndef __GAMEOBJECTGROUPMANAGER_H__
 #define __GAMEOBJECTGROUPMANAGER_H__
 
@@ -15,8 +20,12 @@
 
 namespace ENGINE
 {
-	class CommunicationDevice;
+	// forward declare classes that we need
 	class GameObjectGroup;
+
+	/**
+	 * \class
+	 */
 	class GameObjectGroupManager
 	{
 	public:

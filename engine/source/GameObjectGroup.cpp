@@ -6,21 +6,27 @@
 // Author: Richard Marks
 // Purpose: manages a group of game objects either by ID or name
 
+/**
+ * \file GameObjectGroup.cpp
+ * \brief Game Object Module - Implementation
+ */
+
+// include the complementing header
 #include "GameObjectGroup.h"
+
+// include the game object header
 #include "GameObject.h"
-#include "CommunicationDevice.h"
 
 namespace ENGINE
 {
 	GameObjectGroup::GameObjectGroup()
 	{
-		// implement class constructor here
 	} // end constructor
-
+	
+	/**************************************************************************/
+	
 	GameObjectGroup::~GameObjectGroup()
-	{
-		// implement class destructor here
-		
+	{		
 		// delete all objects
 		unsigned int index = 0;
 		for (index = 0; index < objects_.size(); index++)
@@ -37,18 +43,20 @@ namespace ENGINE
 		names_.clear();
 		
 	} // end destructor
-
-	// calls the Create method on all objects in the group
-	void GameObjectGroup::CallCreate(CommunicationDevice* comDevice)
+	
+	/**************************************************************************/
+	
+	void GameObjectGroup::CallCreate()
 	{
 		GameObjectSTLVectorIterator iter;
 		for (iter = objects_.begin(); iter < objects_.end(); iter++)
 		{
-			(*iter)->Create(comDevice);
+			(*iter)->Create();
 		}
 	}
 	
-	// calls the Update method on all objects in the group
+	/**************************************************************************/
+	
 	void GameObjectGroup::CallUpdate()
 	{
 		GameObjectSTLVectorIterator iter;
@@ -58,7 +66,8 @@ namespace ENGINE
 		}
 	}
 	
-	// calls the Render method on all objects in the group
+	/**************************************************************************/
+	
 	void GameObjectGroup::CallRender()
 	{
 		GameObjectSTLVectorIterator iter;
@@ -68,8 +77,8 @@ namespace ENGINE
 		}
 	}
 	
-
-	// add a named object to the group
+	/**************************************************************************/
+	
 	void GameObjectGroup::AddNamedObject(const char* objectName, GameObject* object)
 	{
 		// add the object to the vector
@@ -79,7 +88,8 @@ namespace ENGINE
 		names_[objectName] = (unsigned int)objects_.size() - 1;
 	}
 	
-	// returns a pointer to a named object or null if the object does not exist
+	/**************************************************************************/
+	
 	GameObject* GameObjectGroup::GetNamedObject(const char* objectName)
 	{
 		// find the object ID for the named object
@@ -95,7 +105,8 @@ namespace ENGINE
 		return 0;
 	}
 	
-	// add an object to the group, returns the objectID of the added object
+	/**************************************************************************/
+	
 	unsigned int GameObjectGroup::AddObject(GameObject* object)
 	{
 		// add the object to the vector
@@ -105,25 +116,29 @@ namespace ENGINE
 		return (unsigned int)objects_.size() - 1;
 	}
 	
-	// returns a pointer to an object by ID or null if the object does not exist
+	/**************************************************************************/
+	
 	GameObject* GameObjectGroup::GetObject(unsigned int objectID)
 	{
 		return objects_.at(objectID);
 	}
 	
-	// returns the total number of objects (named and not) in the group
+	/**************************************************************************/
+	
 	unsigned int GameObjectGroup::GetObjectCount()
 	{
 		return (unsigned int)objects_.size();
 	}
 	
-	// handles the creation of an instance of this class
+	/**************************************************************************/
+	
 	GameObjectGroup* GameObjectGroup::Create()
 	{
 		return new GameObjectGroup();
 	}
 	
-	// handles the memory release of an instance of this class
+	/**************************************************************************/
+	
 	void GameObjectGroup::Destroy(GameObjectGroup* groupInstance)
 	{
 		if (0 != groupInstance)

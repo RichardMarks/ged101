@@ -6,22 +6,23 @@
 // Author: Richard Marks
 // Purpose: The base abstract class that all game objects inherit from
 
+/**
+ * \file GameObject.cpp
+ * \brief Game Object Module - Implementation
+ */
+
+// include the complementing header
 #include "GameObject.h"
-#include "CommunicationDevice.h"
 
 namespace ENGINE
 {
-	GameObject::GameObject() :
-		comDevice_(0)
+	GameObject::GameObject()
 	{
-		// implement class constructor here
-	} // end constructor
+	}
 
 	GameObject::~GameObject()
 	{
-		// implement class destructor here
-	} // end destructor
-
+	}
 
 } // end namespace
 
