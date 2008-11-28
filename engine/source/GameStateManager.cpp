@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: A class to manage the run-state of a game.
 
+/**
+ * \file GameStateManager.cpp
+ * \brief Game State Module - Implementation
+ */
+
 // include the common headers
 #include <cstdio>
 #include <cstdlib>
@@ -46,10 +51,6 @@ namespace ENGINE
 
 	/**************************************************************************/
 
-	/**
-	* Returns true if there are no states in the game state stack,
-	* and false if there are still states to process.
-	*/
 	bool GameStateManagerSingleton::Empty()
 	{
 		return stateStack_.empty();
@@ -57,9 +58,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Processes the state that is on the top of the game state stack.
-	*/
 	void GameStateManagerSingleton::ExecuteNextState()
 	{
 		stateStack_.top()->Execute();		
@@ -67,9 +65,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Clears all states from the game state stack.
-	*/
 	void GameStateManagerSingleton::Clear()
 	{
 		while (!stateStack_.empty())
@@ -80,9 +75,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Removes the state that is on the top of the game state stack.
-	*/
 	void GameStateManagerSingleton::PopState()
 	{
 		stateStack_.pop();
@@ -90,9 +82,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Pushes a new state on to the game state stack.
-	*/
 	void GameStateManagerSingleton::PushState(const char* stateName)
 	{
 		if (IsStateRegistered(stateName))
@@ -110,11 +99,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Registers a game state. You need to do this for every state that you
-	* will ever use. This will assign both a state ID, and name to a pointer
-	* to a game state.
-	*/
 	void GameStateManagerSingleton::RegisterState(const char* stateName, GameState* stateInstance)
 	{
 		// check that the state is not already registered
@@ -142,9 +126,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Calls the Initialize method on all registered states.
-	*/
 	void GameStateManagerSingleton::InitializeStates()
 	{
 		GameStateSTLVectorIterator iter;
@@ -156,10 +137,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Returns true if the name passed is assigned to a registered game state
-	* and false if the name is not assigned to a registered game state.
-	*/
 	bool GameStateManagerSingleton::IsStateRegistered(const char* stateName)
 	{
 		// search the name index for state name
@@ -182,11 +159,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Clears all game state registrations.
-	* Do this if you have a weird need to create a different set of game states
-	* at run-time. This will be rare, but the functionality exists just in case.
-	*/
 	void GameStateManagerSingleton::ClearStateRegistry()
 	{
 		// clear the registry vector
@@ -198,11 +170,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Returns the state ID for a given state name.
-	* You should always first use IsStateRegistered first to make sure you
-	* are trying to get a valid state.
-	*/
 	unsigned int GameStateManagerSingleton::GetStateID(const char* stateName)
 	{
 		// search the name index for state name and return the assigned state ID
@@ -227,12 +194,6 @@ namespace ENGINE
 	
 	/**************************************************************************/
 
-	/**
-	* Returns a pointer to the game state that is assigned to the state ID.
-	* You should not need to use this function directly, but it exists here
-	* in case you find a need for it. You should use IsStateRegistered and
-	* then GetStateID to make sure you are using a valid state ID.
-	*/
 	GameState* GameStateManagerSingleton::GetStateFromID(unsigned int stateID)
 	{
 		return stateRegistry_.at(stateID);

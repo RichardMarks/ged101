@@ -19,6 +19,7 @@ namespace ENGINE
 	/**
 	 * \class GameObject
 	 * \brief The base abstract class that all game objects inherit from
+	 * \ingroup Object Management
 	 */
 	class GameObject
 	{

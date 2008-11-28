@@ -26,6 +26,7 @@ namespace ENGINE
 	/**
 	 * \class GameObjectGroup
 	 * \brief manages a group of game objects either by ID or name
+	 * \ingroup Object Management
 	 */
 	class GameObjectGroup
 	{
