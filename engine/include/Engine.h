@@ -20,6 +20,7 @@
  * The ged101 engine is comprised of several modules that perform different functions
  * \li Graphics Module
  * \sa ENGINE::ImageResource, ENGINE::GraphicsDevice, ENGINE::BitmapFont, ENGINE::AnimationFrame, ENGINE::AnimationSequence
+ * \sa ENGINE::ImageList
  * \li Input Module
  * \sa ENGINE::InputDevice
  * \li Audio Module
@@ -59,6 +60,7 @@
 
 // graphics module
 #include "ImageResource.h"
+#include "ImageList.h"
 #include "BitmapFont.h"
 #include "AnimationFrame.h"
 #include "AnimationSequence.h"
@@ -72,7 +74,6 @@
 #include "GameObject.h"
 #include "GameObjectGroup.h"
 #include "GameObjectGroupManager.h"
-#include "CommunicationDevice.h"
 
 // system module
 #include "GameTimer.h"

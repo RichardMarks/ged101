@@ -18,13 +18,13 @@ engine = ['ged101core',
 	
 	
 	./source/ImageResource.cpp
+	./source/ImageList.cpp
 	./source/BitmapFont.cpp
 	./source/AnimationFrame.cpp
 	./source/AnimationSequence.cpp
 	
 	./source/GameTimer.cpp
 	./source/GameStateManager.cpp
-	./source/CommunicationDevice.cpp
 	
 	./source/GameObject.cpp
 	./source/GameObjectGroup.cpp
