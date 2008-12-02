@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/bin/X11/xterm -display :0 -bg black -fg green -e doxygen
+
