@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: A class for loading, saving, manipulating, and rendering non-animated bitmap images
 
+/**
+ * \file ImageResource.cpp
+ * \brief Bitmap Image Resource Module - Implementation
+ */
+
 // include the common headers
 #include <cstdio>
 #include <cstdlib>
@@ -45,6 +50,20 @@ namespace ENGINE
 	{
 		allegroBitmap_ = 0;
 		Create(source);
+	}
+	
+	/**************************************************************************/
+	
+	ImageResource::ImageResource(const char* fileName)
+	{
+		Load(fileName);
+	}
+	
+	/**************************************************************************/
+	
+	ImageResource::ImageResource(const char* fileName, int sourceX, int sourceY, int width, int height)
+	{
+		Load(fileName, sourceX, sourceY, width, height);
 	}
 	
 	/**************************************************************************/
@@ -113,7 +132,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	bool ImageResource::LoadFrom(const char* fileName, int sourceX, int sourceY, int width, int height)
+	bool ImageResource::Load(const char* fileName, int sourceX, int sourceY, int width, int height)
 	{
 		Destroy();
 		

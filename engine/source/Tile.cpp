@@ -8,7 +8,7 @@
 
 /**
  * \file Tile.cpp
- * \brief Tile-Based Map Module - Implementation
+ * \brief Tile-Based Module - Implementation
  */
 
 // include the complementing header

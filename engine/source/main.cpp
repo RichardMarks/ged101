@@ -5,14 +5,19 @@
 // Project: Game Engine Design 101 (ENGINE)
 // Author: Richard Marks
 
+/**
+ * \file main.cpp
+ * \brief Program Entry Point - Implementation
+ */
+
 // include the common headers
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cstdarg>
+//#include <cstdio>
+//#include <cstdlib>
+//#include <cstring>
+//#include <cstdarg>
 
 // include the error reporting header
-#include "DebugReport.h"
+//#include "DebugReport.h"
 
 // include the engine main system header
 #include "MainSystem.h"

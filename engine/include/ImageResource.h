@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: A class for loading, saving, manipulating, and rendering non-animated bitmap images
 
+/**
+ * \file ImageResource.h
+ * \brief Bitmap Image Resource Module - Header
+ */
+
 #ifndef __IMAGERESOURCE_H__
 #define __IMAGERESOURCE_H__
 
@@ -43,6 +48,25 @@ namespace ENGINE
 		ImageResource(BITMAP* source);
 		
 		/**
+		 * alternate constructor
+		 * Loads an image from a file.
+		 * @param fileName is the name of the file that holds the image to be loaded.
+		 */
+		ImageResource(const char* fileName);
+		
+		/**
+		 * alternate constructor
+		 * Loads an image from a spritesheet-style image file using the specified coordinates and 
+		 * dimension to rip a rectangular portion of the image that is in the file.
+		 * @param fileName is the name of the file that holds the image to be loaded.
+		 * @param sourceX is the X coordinate in pixels or the upper-left corner of the source rectangle to rip from.
+		 * @param sourceY is the Y coordinate in pixels of the upper-left corner of the source rectangle to rip from.
+		 * @param width is the width in pixels of the image to rip.
+		 * @param height is the height in pixels of the image to rip.
+		 */
+		ImageResource(const char* fileName, int sourceX, int sourceY, int width, int height);
+		
+		/**
 		 * destructor calls Destroy to release allocated memory
 		 */
 		~ImageResource();
@@ -78,14 +102,7 @@ namespace ENGINE
 		 * @param width is the width in pixels of the image to rip.
 		 * @param height is the height in pixels of the image to rip.
 		 */
-		bool LoadFrom(const char* fileName, int sourceX, int sourceY, int width, int height);
-		
-		// destruction
-		
-		/**
-		 * De-allocates any allocated memory
-		 */
-		void Destroy();
+		bool Load(const char* fileName, int sourceX, int sourceY, int width, int height);
 		
 		// blitting
 		
@@ -317,7 +334,21 @@ namespace ENGINE
 		int GetHeight();
 		
 	private:
-		// private members should be declared here
+	
+		/**
+		 * De-allocates any allocated memory
+		 */
+		void Destroy();
+		
+		/**
+		 * hidden copy constructor
+		 */
+		ImageResource(const ImageResource& rhs);
+		
+		/**
+		 * hidden assignment operator
+		 */
+		const ImageResource& operator=(const ImageResource& rhs);
 		
 		/**
 		 * Loads an image using the Allegro load_bitmap function.

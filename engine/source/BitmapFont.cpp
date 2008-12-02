@@ -6,6 +6,11 @@
 // Author: Richard Marks
 // Purpose: holds the data for a bitmapped font
 
+/**
+ * \file BitmapFont.cpp
+ * \brief Bitmapped-font printing system - Implementation
+ */
+
 // include the common headers
 #include <cstdio>
 #include <cstdlib>

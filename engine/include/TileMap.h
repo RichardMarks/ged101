@@ -8,7 +8,7 @@
 
 /**
  * \file TileMap.h
- * \brief Tile-Based Map Module - Header
+ * \brief Tile-Based Module - Header
  */
  
 #ifndef __TILEMAP_H__

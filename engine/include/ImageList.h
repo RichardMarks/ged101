@@ -23,7 +23,7 @@ namespace ENGINE
 	class ImageResource;
 	
 	/**
-	 * \namespace IMGLST
+	 * \namespace ENGINE::IMGLST
 	 * \brief contains the ImageList specific enumerations
 	 */
 	namespace IMGLST

@@ -16,6 +16,7 @@ engine = ['ged101core',
 	./source/AudioDevice.cpp
 	./source/Audio_OGG.cpp
 	
+	./source/ColorRGB.cpp
 	
 	./source/ImageResource.cpp
 	./source/ImageList.cpp
@@ -30,6 +31,11 @@ engine = ['ged101core',
 	./source/GameObjectGroup.cpp
 	./source/GameObjectGroupManager.cpp
 
+	./source/Tile.cpp
+	./source/TileMap.cpp
+	./source/TileMapRenderer.cpp
+	./source/Tileset.cpp
+	
 	./source/main.cpp
 	""")]
 

@@ -8,7 +8,7 @@
 
 /**
  * \file TileMap.cpp
- * \brief Tile-Based Map Module - Implementation
+ * \brief Tile-Based Module - Implementation
  */
 
 // include the common headers

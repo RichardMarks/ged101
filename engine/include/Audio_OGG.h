@@ -6,6 +6,11 @@
 // Author: Richard Marks - created with help from many source references found on the web and from friends.
 // Purpose: These classes wrap the OGG/Vorbis audio resource loading, playback, destruction functionality.
 
+/**
+ * \file Audio_OGG.h
+ * \brief OGG/Vorbis Audio Resource - Header
+ */
+
 #ifndef __AUDIO_OGG_H__
 #define __AUDIO_OGG_H__
 
