@@ -36,6 +36,7 @@ engine = ['ged101core',
 	./source/TileMapRenderer.cpp
 	./source/Tileset.cpp
 	
+	./source/NameDirectory.cpp
 	./source/main.cpp
 	""")]
 

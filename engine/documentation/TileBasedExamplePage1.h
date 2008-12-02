@@ -22,18 +22,18 @@
 Tileset* ts = new Tileset();
 
 // add a black tile that is 16x16 pixels in size as the first tile, so that maps with tiles that have a value of 0 will use the null tile
-ts["null"] = new ImageResource(16, 16, ColorRGB(0, 0, 0).Get());
+ts->Add("null", new ImageResource(16, 16, ColorRGB(0, 0, 0).Get()));
 
-// add the grass tile using array-notation
-ts["grass"] = new ImageResource("grass.png");
+// add the grass tile
+ts->Add("grass", new ImageResource("grass.png"));
 
-// add a dirt tile using a member-function
+// add a dirt tile 
 ts->Add("dirt", new ImageResource("dirt.png"));
 
-// add a sand tile using a member-function
+// add a sand tile 
 ts->Add("sand", new ImageResource("sand.png"));
 
-// add 4 water tiles using a member-function 
+// add 4 water tiles
 // the tiles will be stored named as water0 water1 water2 water3
 ts->AddRange("water", 4, 
 	new ImageResource("water.png", 0, 0, 16, 16),
@@ -41,8 +41,8 @@ ts->AddRange("water", 4,
 	new ImageResource("water.png", 32, 0, 16, 16),
 	new ImageResource("water.png", 48, 0, 16, 16));
 
-// add 6 mountain tiles using variable-argument-function notation
-ts("mountain", 6, 
+// add 6 mountain tiles
+ts->AddRange("mountain", 6, 
 	new ImageResource("mountain.png", 0, 0, 16, 16),
 	new ImageResource("mountain.png", 16, 0, 16, 16),
 	new ImageResource("mountain.png", 32, 0, 16, 16),
@@ -64,11 +64,15 @@ TileMap* world = new TileMap(MAP_WIDTH, MAP_HEIGHT);
 // get the index for our water tile
 unsigned int waterIndex = ts->GetIndex("water0");
 
+// get the number of tiles that we have in our tileset
+unsigned int tileCount = ts->GetCount();
+
 for (int y = 0; y < MAP_HEIGHT; y++)
 {
 	for (int x = 0; x < MAP_WIDTH; x++)
 	{
-		unsigned int tile = static_cast<unsigned int>(rand() % ts->Count());
+		// get a random tile
+		unsigned int tile = static_cast<unsigned int>(rand() % tileCount);
 		
 		// if the tile value is larger than the index of the water tile, then the tile will be set to be solid.
 		world->SetTile(x, y, &Tile(tile, (tile > waterIndex) ? true : false ));
@@ -82,14 +86,13 @@ for (int y = 0; y < MAP_HEIGHT; y++)
  * begin the scene, and tell the TileMapRenderer to render to our display buffer, and finally end the scene.
  * \code
 
-
 ImageResource* display = GraphicsDevice->GetSecondaryDisplayBuffer();
  
-TileMapRenderer worldRenderer(world, ts, display);
+TileMapRenderer* worldRenderer = new TileMapRenderer(world, ts, display);
 
 GraphicsDevice->BeginScene();
 
-worldRenderer.Render();
+worldRenderer->Render();
 
 GraphicsDevice->EndScene();
  * \endcode
@@ -98,6 +101,7 @@ GraphicsDevice->EndScene();
  * It is important to remember to delete the pointers we allocate when we are finished using them, so that we avoid memory leaks.
  * \code
  
+delete worldRenderer;
 delete world;
 delete ts;
 

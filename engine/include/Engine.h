@@ -37,6 +37,9 @@
 // system module
 #include "GameTimer.h"
 #include "GameStateManager.h"
+#include "NameDirectory.h"
+
+// debugging module
 #include "DebugReport.h"
 
 #endif

@@ -106,17 +106,26 @@ namespace ENGINE
 	}
 	
 	/**************************************************************************/
-	
+
+#if 0
 	ImageResource* ImageList::operator[](unsigned int index)
 	{
 		return (index < images_.size()) ? images_.at(index) : 0;
 	}
-	
+#endif
+
 	/**************************************************************************/
 	
 	void ImageList::Clear()
 	{
 		Destroy();
+	}
+	
+	/**************************************************************************/
+	
+	unsigned int ImageList::GetCount()
+	{
+		return static_cast<unsigned int>(images_.size());
 	}
 	
 	/**************************************************************************/

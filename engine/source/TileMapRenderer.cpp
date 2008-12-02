@@ -37,7 +37,7 @@
 
 namespace ENGINE
 {
-	TileMapRenderer() :
+	TileMapRenderer::TileMapRenderer() :
 		tileMap_(0),
 		tileSet_(0),
 		renderTarget_(0)
@@ -58,8 +58,8 @@ namespace ENGINE
 		int mapWidth 		= tileMap_->GetWidth();
 		int mapHeight 		= tileMap_->GetHeight();
 		
-		int tileWidth 		= tileSet_[0]->GetWidth();
-		int tileHeight 		= tileSet_[0]->GetHeight();
+		int tileWidth 		= tileSet_->Get(static_cast<unsigned int>(0))->GetWidth();
+		int tileHeight 		= tileSet_->Get(static_cast<unsigned int>(0))->GetHeight();
 		
 		if ((targetWidth < (mapWidth * tileWidth)) || (targetHeight < (mapHeight * tileHeight)))
 		{
@@ -104,8 +104,8 @@ namespace ENGINE
 	{
 		int mapWidth 	= tileMap_->GetWidth();
 		int mapHeight 	= tileMap_->GetHeight();
-		int tileWidth 	= tileSet_[0]->GetWidth();
-		int tileHeight 	= tileSet_[0]->GetHeight();
+		int tileWidth 	= tileSet_->Get(static_cast<unsigned int>(0))->GetWidth();
+		int tileHeight 	= tileSet_->Get(static_cast<unsigned int>(0))->GetHeight();
 		
 		for (int row = 0; row < mapHeight; row++)
 		{
@@ -118,7 +118,7 @@ namespace ENGINE
 				
 				unsigned int tileValue = tile->GetValue();
 				
-				tileSet_[tileValue]->Blit(renderTarget_, 0, 0, x, y, tileWidth, tileHeight);
+				tileSet_->Get(tileValue)->Blit(renderTarget_, 0, 0, x, y, tileWidth, tileHeight);
 			}
 		} 
 	}

@@ -85,17 +85,25 @@ namespace ENGINE
 		 */
 		ImageResource* Get(unsigned int index);
 		
+#if 0
 		/**
 		 * Gets an image from the list using array-notation
 		 * @param index is the ID for the image to get
 		 * \return a pointer to the image, or 0 if the index is out of range, or if the stored image is invalid
 		 */
 		ImageResource* operator[](unsigned int index);
-		
+#endif
+	
 		/**
 		 * De-allocate any allocated memory by calling ImageList::Destroy() to clear out the list
 		 */
 		void Clear();
+		
+		/**
+		 * Gets the number of images
+		 * \return the number of images that are in the list
+		 */
+		unsigned int GetCount();
 		
 	private:
 		

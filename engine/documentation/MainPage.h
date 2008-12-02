@@ -48,6 +48,7 @@
  * - ENGINE::GameTimer
  * - ENGINE::GameState
  * - ENGINE::GameStateManagerSingleton
+ * - ENGINE::NameDirectory
  *
  * \section MPDebugSection Debugging Module
  * - DEBUG::DebugReport
