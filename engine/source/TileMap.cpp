@@ -40,6 +40,7 @@ namespace ENGINE
 	
 	TileMap::TileMap(int width, int height)
 	{
+		tiles_ = 0;
 		SetSize(width, height);
 	}
 	
