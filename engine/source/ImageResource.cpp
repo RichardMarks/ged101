@@ -56,6 +56,7 @@ namespace ENGINE
 	
 	ImageResource::ImageResource(const char* fileName)
 	{
+		allegroBitmap_ = 0;
 		Load(fileName);
 	}
 	
@@ -63,6 +64,7 @@ namespace ENGINE
 	
 	ImageResource::ImageResource(const char* fileName, int sourceX, int sourceY, int width, int height)
 	{
+		allegroBitmap_ = 0;
 		Load(fileName, sourceX, sourceY, width, height);
 	}
 	
