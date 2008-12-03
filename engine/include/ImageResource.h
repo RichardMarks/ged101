@@ -182,6 +182,28 @@ namespace ENGINE
 			int destX, int destY,
 			int destWidth, int destHeight);
 		
+		/**
+		 * Blits (draws) the image onto another image at the specified location.
+		 * Any pixels that are colored Magic Pink (255 red, 0 green, 255 blue) #FF00FF in the image are ignored.
+		 * This lets you draw an image on top of another image with some areas being specified as DO-NOT-DRAW.
+		 * @param destination is a pointer to an ImageResource that you wish to draw on.
+		 * @param destX is the X coordinate in pixels to draw to on the destination image.
+		 * @param destY is the Y coordinate in pixels to draw to on the destination image.
+		 */
+		void SpriteBlit(ImageResource* destination, int destX, int destY);
+		
+		/**
+		 * Blits (draws) the image onto another image at the specified location.
+		 * You can specify an alpha value to create a translucency effect.
+		 * Any pixels that are colored Magic Pink (255 red, 0 green, 255 blue) #FF00FF in the image are ignored.
+		 * This lets you draw an image on top of another image with some areas being specified as DO-NOT-DRAW.
+		 * @param destination is a pointer to an ImageResource that you wish to draw on.
+		 * @param destX is the X coordinate in pixels to draw to on the destination image.
+		 * @param destY is the Y coordinate in pixels to draw to on the destination image.
+		 * @param alpha is the alpha value, which should be from 0.0f (invisible) to 1.0f (solid) -- default is 0.5f which is about 50% translucent
+		 */
+		void AlphaBlit(ImageResource* destination, int destX, int destY, float alpha = 0.5f);
+		
 		// transformations
 		
 		/**

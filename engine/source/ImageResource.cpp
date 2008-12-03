@@ -234,6 +234,21 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
+	void SpriteBlit(ImageResource* destination, int destX, int destY)
+	{
+		draw_sprite(destination, allegroBitmap_, destX, destY);
+	}
+	
+	/**************************************************************************/
+	
+	void AlphaBlit(ImageResource* destination, int destX, int destY, float alpha)
+	{
+		set_trans_blender(0, 0, 0, static_cast<int>(255 * alpha));
+		draw_trans_sprite(destination, allegroBitmap_, destX, destY);
+	}
+	
+	/**************************************************************************/
+	
 	// transformations
 	void ImageResource::Mirror()
 	{
