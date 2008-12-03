@@ -404,11 +404,11 @@ namespace ENGINE
 					int letter = textBuffer[index];
 					
 					// find the position of the letter
-					int letterX = (letter / fontImageWidth) * letterWidth_;
-					int letterY = (letter % fontImageHeight) * letterHeight_;
+					int letterX = (letter / 16) * letterWidth_;
+					int letterY = (letter % 16) * letterHeight_;
 					
 					// blit the damn thing!
-					fontImage_->Blit(destination, letterX, letterY, cursorX, cursorY, letterWidth_, letterHeight_);
+					fontImage_->BlitMasked(destination, letterX, letterY, cursorX, cursorY, letterWidth_, letterHeight_);
 					
 					// advance cursor position
 					cursorX += letterWidth_;
