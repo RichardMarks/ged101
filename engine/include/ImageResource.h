@@ -243,6 +243,20 @@ namespace ENGINE
 		void Rect(int x1, int y1, int x2, int y2, int color, bool filled = false);
 		
 		/**
+		 * Draws a rectangle filled with a linear interpolated gradient from 4 colored corners.
+		 * This should not be used in a real-time loop, but rather to generate gradients to be stored and used later.
+		 * @param x1 is the X coordinate of the upper-left corner point in pixels.
+		 * @param y1 is the Y coordinate of the upper-left point in pixels.
+		 * @param x2 is the X coordinate of the lower-right point in pixels.
+		 * @param y2 is the Y coordinate of the lower-right point in pixels.
+		 * @param c1 is the color for the upper-left corner of the rectangle.
+		 * @param c2 is the color for the upper-right corner of the rectangle.
+		 * @param c3 is the color for the lower-left corner of the rectangle.
+		 * @param c4 is the color for the lower-right corner of the rectangle.
+		 */
+		void GradientRect(int x1, int y1, int x2, int y2, int c1, int c2, int c3, int c4);
+		
+		/**
 		 * Draws an ellipse that fits inside a rectangle whose upper-left corner is at point (x, y) 
 		 * and lower-right corner is at point (x + 2*radiusX, y + 2*radiusY) in the specified color.\n
 		 * The ellipse can also be drawn filled with the color by specifying true for the \a filled parameter.

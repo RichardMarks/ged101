@@ -312,6 +312,94 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
+	void ImageResource::GradientRect(int x1, int y1, int x2, int y2, int c1, int c2, int c3, int c4)
+	{
+		float size[2] = {
+			static_cast<float>(x2 - x1),
+			static_cast<float>(y2 - y1)
+		};
+	
+		float upperLeftColor[3] = {
+			static_cast<float>(getr(c1)),
+			static_cast<float>(getg(c1)),
+			static_cast<float>(getb(c1))
+		};
+	
+		float upperRightColor[3] = {
+			static_cast<float>(getr(c2)),
+			static_cast<float>(getg(c2)),
+			static_cast<float>(getb(c2))
+		};
+	
+		float lowerLeftColor[3] = {
+			static_cast<float>(getr(c3)),
+			static_cast<float>(getg(c3)),
+			static_cast<float>(getb(c3))
+		};
+	
+		float lowerRightColor[3] = {
+			static_cast<float>(getr(c4)),
+			static_cast<float>(getg(c4)),
+			static_cast<float>(getb(c4))
+		};
+	
+		float deltaXRGB[3] = { 
+			0.0f, 
+			0.0f, 
+			0.0f 
+		};
+	
+		float deltaYRGB[6] = {
+			static_cast<float>((lowerLeftColor[0] - upperLeftColor[0]) / size[1]),
+			static_cast<float>((lowerLeftColor[1] - upperLeftColor[1]) / size[1]),
+			static_cast<float>((lowerLeftColor[2] - upperLeftColor[2]) / size[1]),
+			static_cast<float>((lowerRightColor[0] - upperRightColor[0]) / size[1]),
+			static_cast<float>((lowerRightColor[1] - upperRightColor[1]) / size[1]),
+			static_cast<float>((lowerRightColor[2] - upperRightColor[2]) / size[1])
+		};
+	
+		float rgb[3] = {
+			0.0f,
+			0.0f,
+			0.0f
+		};
+	
+		for (int y = y1; y < y2; y++)
+		{
+			deltaXRGB[0] = static_cast<float>((upperRightColor[0] - upperLeftColor[0]) / size[0]);
+			deltaXRGB[1] = static_cast<float>((upperRightColor[1] - upperLeftColor[1]) / size[0]);
+			deltaXRGB[2] = static_cast<float>((upperRightColor[2] - upperLeftColor[2]) / size[0]);
+		
+			rgb[0] = upperLeftColor[0];
+			rgb[1] = upperLeftColor[1];
+			rgb[2] = upperLeftColor[2];
+		
+			for (int x = x1; x < x2; x++)
+			{
+				int pixelColor = makecol(
+					static_cast<int>(rgb[0]), 
+					static_cast<int>(rgb[1]),
+					static_cast<int>(rgb[2])
+					);
+				putpixel(allegroBitmap_, x, y, pixelColor);
+			
+				rgb[0] += deltaXRGB[0];
+				rgb[1] += deltaXRGB[1];
+				rgb[2] += deltaXRGB[2];
+			}
+		
+			upperLeftColor[0] += deltaYRGB[0];
+			upperLeftColor[1] += deltaYRGB[1];
+			upperLeftColor[2] += deltaYRGB[2];
+		
+			upperRightColor[0] += deltaYRGB[3];
+			upperRightColor[1] += deltaYRGB[4];
+			upperRightColor[2] += deltaYRGB[5];
+		}
+	}
+	
+	/**************************************************************************/
+	
 	void ImageResource::Ellipse(int x, int y, int radiusX, int radiusY, int color, bool filled)
 	{
 		if (filled)
