@@ -55,6 +55,7 @@
  * \defgroup TileBasedGroup Tile-Based
  * \defgroup DebugGroup Debug
  * \defgroup ObjectGroup Object Management
+ * \defgroup MathGroup Good Ole Game Programmer Mathematics
  */
 
 

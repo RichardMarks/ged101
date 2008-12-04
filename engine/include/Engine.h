@@ -43,6 +43,9 @@
 // debugging module
 #include "DebugReport.h"
 
+// math
+#include "Vector.h"
+
 #endif
 
 
