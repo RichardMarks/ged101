@@ -9,6 +9,7 @@
 /**
  * \file ColorRGB.cpp
  * \brief 24-bit Color Type - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 

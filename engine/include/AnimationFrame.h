@@ -9,6 +9,7 @@
 /**
  * \file AnimationFrame.h
  * \brief Animation System Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __ANIMATIONFRAME_H__
@@ -22,6 +23,8 @@ namespace ENGINE
 	/**
 	 * \class AnimationFrame
 	 * \brief A class to hold a single frame of animation data
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class AnimationFrame
 	{

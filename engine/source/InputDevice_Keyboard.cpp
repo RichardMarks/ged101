@@ -9,6 +9,7 @@
 /**
  * \file InputDevice_Keyboard.cpp
  * \brief Keyboard Input Device Interface Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

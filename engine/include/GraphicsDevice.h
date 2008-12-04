@@ -12,6 +12,7 @@
 /**
  * \file GraphicsDevice.h
  * \brief Graphics Device Interface Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 namespace ENGINE
@@ -54,6 +55,8 @@ namespace ENGINE
 	/**
 	 * \class GraphicsDeviceSingleton
 	 * \brief Interface to the physical graphics device; The screen.
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * This class is implemented as a Singleton class, since there should never
 	 * be a need for multiple graphics devices. Multi-monitor support is not available

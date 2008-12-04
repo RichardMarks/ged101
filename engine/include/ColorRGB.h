@@ -9,6 +9,7 @@
 /**
  * \file ColorRGB.h
  * \brief 24-bit Color Type - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 #ifndef __COLORRGB_H__
@@ -19,6 +20,8 @@ namespace ENGINE
 	/**
 	 * \class ColorRGB
 	 * \brief A class for creating 24-bit colors from red, green, and blue values.
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class ColorRGB
 	{

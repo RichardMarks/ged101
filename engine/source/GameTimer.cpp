@@ -9,6 +9,7 @@
 /**
  * \file GameTimer.cpp
  * \brief Cross-platform high-resolution timer class - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 // only non-windows platforms use this

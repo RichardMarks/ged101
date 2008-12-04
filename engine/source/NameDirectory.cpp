@@ -9,6 +9,7 @@
 /**
  * \file NameDirectory.cpp
  * \brief Generic Utility System Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

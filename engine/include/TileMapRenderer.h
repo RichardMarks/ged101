@@ -9,6 +9,7 @@
 /**
  * \file TileMapRenderer.h
  * \brief Tile-Based Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __TILEMAPRENDERER_H__
@@ -24,6 +25,8 @@ namespace ENGINE
 	/**
 	 * \class TileMapRenderer
 	 * \brief A class for rendering a TileMap onto an ImageResource using an Tileset
+	 * \ingroup TileBasedGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * Also serves as a base-class for implementing more complex renderers.
 	 * See the page \ref TileBasedExamplePage1 for an example of using the TileMapRenderer class

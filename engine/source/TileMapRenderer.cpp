@@ -9,6 +9,7 @@
 /**
  * \file TileMapRenderer.cpp
  * \brief Tile-Based Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

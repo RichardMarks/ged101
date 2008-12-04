@@ -8,6 +8,7 @@
 /**
  * \file main.cpp
  * \brief Program Entry Point - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the Allegro header

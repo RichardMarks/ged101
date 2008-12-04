@@ -9,6 +9,7 @@
 /**
  * \file AudioDevice.cpp
  * \brief Audio Device Interface Module - Implementation 
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

@@ -9,6 +9,7 @@
 /**
  * \file InputDevice_Mouse.cpp
  * \brief Mouse Input Device Interface Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

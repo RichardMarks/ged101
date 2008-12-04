@@ -9,6 +9,7 @@
 /**
  * \file InputDevice.cpp
  * \brief Input Device Common Interface - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the complementing header

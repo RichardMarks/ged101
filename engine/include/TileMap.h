@@ -9,6 +9,7 @@
 /**
  * \file TileMap.h
  * \brief Tile-Based Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 #ifndef __TILEMAP_H__
@@ -22,6 +23,8 @@ namespace ENGINE
 	/**
 	 * \class TileMap
 	 * \brief A basic tile map for creating simple single-layer tile maps
+	 * \ingroup TileBasedGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * This class serves as a base class for more advanced tile maps
 	 * \sa ENGINE::LayeredTileMap

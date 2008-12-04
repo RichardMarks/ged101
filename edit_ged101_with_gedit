@@ -1,4 +1,6 @@
 #!/bin/sh
 
-/usr/bin/X11/xterm -display :0 -bg black -fg green -e gedit engine/SConstruct engine/include/*.h engine/source/*.cpp engine/documentation/*.h &
+#/usr/bin/X11/xterm -display :0 -bg black -fg green -e 
+
+gedit engine/SConstruct engine/include/*.h engine/source/*.cpp engine/documentation/*.h &
 

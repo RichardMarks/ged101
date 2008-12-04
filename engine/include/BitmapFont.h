@@ -9,6 +9,7 @@
 /**
  * \file BitmapFont.h
  * \brief Bitmapped-font printing system - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __BITMAPFONT_H__
@@ -25,6 +26,8 @@ namespace ENGINE
 	/**
 	 * \class BitmapFont
 	 * \brief Bitmapped-font printing system
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class BitmapFont
 	{

@@ -8,6 +8,7 @@
 /**
  * \file Engine.h
  * \brief Master Engine - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 #ifndef __ENGINE_H__
 #define __ENGINE_H__

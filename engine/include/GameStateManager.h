@@ -9,6 +9,7 @@
 /**
  * \file GameStateManager.h
  * \brief Game State Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __GAMESTATEMANAGER_H__
@@ -27,6 +28,8 @@ namespace ENGINE
 	/**
 	 * \class GameStateManagerSingleton
 	 * \brief A class to manage the run-state of a game.
+	 * \ingroup SystemGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * This class manages the run-state of a game. It accomplishes this by using
 	 * a stack of pointers to GameState instances.

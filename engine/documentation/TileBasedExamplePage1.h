@@ -8,6 +8,7 @@
 /**
  * \file TileBasedExamplePage1.h
  * \brief Documentation
+ * \author Richard Marks <ccpsceo@gmail.com>
 
  * \page TileBasedExamplePage1 Tile-based Examples
  * In the example below, we create a simple 2D tile-map demonstration.\n

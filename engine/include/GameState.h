@@ -9,6 +9,7 @@
 /**
  * \file GameState.h
  * \brief Game State Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 #ifndef __GAMESTATE_H__
 #define __GAMESTATE_H__
@@ -18,6 +19,8 @@ namespace ENGINE
 	/**
 	 * \class GameState
 	 * \brief The abstract class that serves as a base for all game states.
+	 * \ingroup SystemGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class GameState
 	{

@@ -9,6 +9,7 @@
 /**
  * \file AnimationSequence.cpp
  * \brief Animation System Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

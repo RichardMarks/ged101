@@ -9,6 +9,7 @@
 /**
  * \file NameDirectory.h
  * \brief Generic Utility System Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __NAMEDIRECTORY_H__
@@ -23,6 +24,8 @@ namespace ENGINE
 	/**
 	 * \class NameDirectory
 	 * \brief A class to manage a directory of names for using simple name/index lookup tables
+	 * \ingroup SystemGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class NameDirectory
 	{

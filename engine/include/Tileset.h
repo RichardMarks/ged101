@@ -9,6 +9,7 @@
 /**
  * \file Tileset.h
  * \brief Tile-Based Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __TILESET_H__
@@ -24,6 +25,8 @@ namespace ENGINE
 	/**
 	 * \class Tileset
 	 * \brief A class to manage a list of pointers to the ImageResource class by name
+	 * \ingroup TileBasedGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * See the page \ref TileBasedExamplePage1 for an example of using the Tileset class
 	 */

@@ -9,6 +9,7 @@
 /**
  * \file GameObjectGroupManager.cpp
  * \brief Game Object Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the complementing header

@@ -17,6 +17,7 @@
 /**
  * \file DebugReport.cpp
  * \brief Project Debugging Utility Library - Error Reporting Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>, Redslash
  */
 
 namespace DEBUG

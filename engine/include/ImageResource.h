@@ -9,6 +9,7 @@
 /**
  * \file ImageResource.h
  * \brief Bitmap Image Resource Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __IMAGERESOURCE_H__
@@ -21,6 +22,8 @@ namespace ENGINE
 	/**
 	 * \class ImageResource
 	 * \brief A class for loading, saving, manipulating, and rendering non-animated bitmap images
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * This class has support for loading images from PNG files, and performing basic transformations such as
 	 * rotation, scaling, and flip/mirroring.

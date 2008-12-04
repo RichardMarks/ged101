@@ -9,6 +9,7 @@
 /**
  * \file Audio_OGG.h
  * \brief OGG/Vorbis Audio Resource - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __AUDIO_OGG_H__
@@ -32,6 +33,8 @@ namespace ENGINE
 	/**
 	 * \class AudioSampleResource_OGG
 	 * \brief A class for using short audio samples in the OGG format
+	 * \ingroup AudioGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class AudioSampleResource_OGG
 	{
@@ -125,6 +128,8 @@ typedef struct SAMPLEtag
 	/**
 	 * \class AudioStreamResource_OGG
 	 * \brief A class for using long audio data streams (background music) in the OGG format
+	 * \ingroup AudioGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class AudioStreamResource_OGG
 	{

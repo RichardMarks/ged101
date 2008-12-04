@@ -14,6 +14,7 @@
 /**
  * \file DebugReport.h
  * \brief Project Debugging Utility Library - Error Reporting Header
+ * \author Richard Marks <ccpsceo@gmail.com>, Redslash
  *
  * The Project Debugging Utility Library is comprised of a few classes that make
  * error reporting an easy task. There are several levels of reporting severity.\n
@@ -57,6 +58,8 @@ namespace DEBUG
 	/**
 	 * \class DebugReportInfo
 	 * \brief A helper class that gives the functionality of a printf-style error reporting function. 
+	 * \ingroup DebugGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>, Redslash
 	 *
 	 * The class stores the function, file and line information so that it may be used later when calling the real 
 	 * reporting functions from the DebugReport class.\n
@@ -129,6 +132,8 @@ namespace DEBUG
 	/**
 	 * \class DebugReport
 	 * \brief Handles the actual report logging functionality of the debug system.
+	 * \ingroup DebugGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * The DebugReport class only exposes the static DebugReport::Log() function.
 	 * Instances of the DebugReport class cannot be made.

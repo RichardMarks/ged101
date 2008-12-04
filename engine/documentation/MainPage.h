@@ -9,53 +9,55 @@
  * \file MainPage.h
  * \brief Documentation
  * \mainpage
- * The Game Engine Design 101 Project. (ged101)\n\n
- * A collection of reusable classes that when used properly provide a cross-platform library of functionality to
- * implement just about any game genre you can imagine... within limits of course.\n
- * ged101 is purely 2D at this time.\n\n
+ * <h2>The Game Engine Design 101 Project. (ged101)</h2>\n\n
+ * <h3>Designed and Developed by Richard Marks 2008</h3>
+ * This project is a serious effort to design and implement a reusable Cross-Platform Game Engine in the C++ language.\n\n
  *
- * The ged101 engine is comprised of several modules that perform different functions
- * \section MPGraphicsSection Graphics Module
- * - ENGINE::GraphicsDeviceSingleton
- * - ENGINE::ColorRGB
- * - ENGINE::ImageResource
- * - ENGINE::BitmapFont
- * - ENGINE::AnimationFrame
- * - ENGINE::AnimationSequence
- * - ENGINE::ImageList
+ * Using the Allegro cross-platform library as a backend to provide an interface to the hardware of the machine that works
+ * on Windows, Linux, MaC OSX, and a few other platforms, ged101 wraps the functionality of most of Allegro's functions in a
+ * very modular C++ OOP fashion to provide a nice stable and easy to use platform for developing games.\n\n
+ * 
+ * Several highlights to the ged101 engine are support for loading PNG image files without having to resport to another library,
+ * the ability to load and stream OGG/Vorbis audio files without needing another library, and the ability to focus on creating a
+ * game, not an engine when you have that burst of inspiration to sit down and make a game!\n\n
  *
- * \section MPTileBasedSection Tile-Based Module
- * - ENGINE::Tile
- * - ENGINE::Tileset
- * - ENGINE::TileMap
- * - ENGINE::TileMapRenderer
+ * You are not stuck wondering how to do this or that to get a simple framework started for your game. Using the ged101 engine
+ * could not be much easier. You just need to create the code for your game. And link to the ged101 library, add in some resources
+ * like images, sounds, and level maps, and whamo! You've got a game on your hands!\n\n
  *
- * \section MPInputSection Input Module 
- * - ENGINE::InputDeviceSingleton
+ * The easy to use architecture of the ged101 engine makes it a snap to create a working prototype in minutes.\n\n
  *
- * \section MPAudioSection Audio Module
- * - ENGINE::AudioDeviceSingleton
- * - ENGINE::AudioSampleResource_OGG
- * - ENGINE::AudioStreamResource_OGG
+ * Just create a Game.h and a Game.cpp (you can copy/paste the included Game.h and Game.cpp file if you want to) and create your
+ * game state classes that inherit from the ENGINE::GameState class. You implement the gamestates by filling in the functions
+ * for Initialize() and Execute() and Destroy() and then you are pretty much finished with that.\n\n
  *
- * \section MPObjectSection Object Module
- * - ENGINE::GameObject
- * - ENGINE::GameObjectGroup
- * - ENGINE::GameObjectGroupManager
+ * There will be tutorials for how to get started using ged101, both a breakout-type game and a mini-rpg walk around will be
+ * covered in detail from the start to the finish of creating 2 working game demos.\n\n
  *
- * \section MPSystemSection System Module
- * - ENGINE::MainSystem
- * - ENGINE::GameTimer
- * - ENGINE::GameState
- * - ENGINE::GameStateManagerSingleton
- * - ENGINE::NameDirectory
+ * The ged101 engine is open-source, and licensed under the GNU GPL v2 license agreement.\n\n
  *
- * \section MPDebugSection Debugging Module
- * - DEBUG::DebugReport
- * - DEBUG::DebugReportInfo 
+ * If you have suggestions for improving the code, just let me know.\n\n
  *
+ * Richard Marks <ccpsceo@gmail.com>\n
+ * CEO, CCPS Solutions http://www.ccpssolutions.com
+ 
  * \section MPTutorials Tutorials and Example Code
- * ged101 comes with some example code snippets and tutorials to show you how to use the classes that make up the engine.
- * - \ref TileBasedExamplePage1
+ * - \ref TileBasedExamplePage1 - code snippets to show how to use the tile-engine classes
  */
+
+
+
+/**
+ * \defgroup GraphicsGroup Graphics
+ * \defgroup InputGroup Input
+ * \defgroup AudioGroup Audio
+ * \defgroup SystemGroup System
+ * \defgroup TileBasedGroup Tile-Based
+ * \defgroup DebugGroup Debug
+ * \defgroup ObjectGroup Object Management
+ */
+
+
+
+
 

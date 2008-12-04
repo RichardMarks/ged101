@@ -9,6 +9,7 @@
 /**
  * \file GraphicsDevice.cpp
  * \brief Graphics Device Interface - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

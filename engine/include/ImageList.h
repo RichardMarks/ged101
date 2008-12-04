@@ -9,13 +9,13 @@
 /**
  * \file ImageList.h
  * \brief Graphics Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __IMAGELIST_H__
 #define __IMAGELIST_H__
 
 #include <vector>
-#include <cstdarg>
 
 namespace ENGINE
 {
@@ -44,6 +44,8 @@ namespace ENGINE
 	/**
 	 * \class ImageList
 	 * \brief A class to hold a list of pointers to the ImageResource class
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class ImageList
 	{

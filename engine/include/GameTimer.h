@@ -9,6 +9,7 @@
 /**
  * \file GameTimer.h
  * \brief Cross-platform high-resolution timer class - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 #ifndef __GAMETIMER_H__
@@ -38,6 +39,8 @@ namespace ENGINE
 	/**
 	 * \class GameTimerSingleton
 	 * \brief A cross-platform compatible class for handling proper game timing
+	 * \ingroup SystemGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 *
 	 * This is a high-resolution timer that wraps up the tricky code needed to
 	 * implement proper timing in your games. And it is cross-platform as well!

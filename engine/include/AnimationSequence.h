@@ -9,6 +9,7 @@
 /**
  * \file AnimationSequence.h
  * \brief Animation System Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __ANIMATIONSEQUENCE_H__
@@ -24,6 +25,8 @@ namespace ENGINE
 	/**
 	 * \class AnimationSequence
 	 * \brief A class to hold a list of animation frames
+	 * \ingroup GraphicsGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class AnimationSequence
 	{

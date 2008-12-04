@@ -9,6 +9,7 @@
 /**
  * \file Audio_OGG.cpp
  * \brief OGG/Vorbis Audio Resource - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

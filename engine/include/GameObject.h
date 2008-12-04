@@ -9,6 +9,7 @@
 /**
  * \file GameObject.h
  * \brief Game Object Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
  
 #ifndef __GAMEOBJECT_H__
@@ -19,7 +20,8 @@ namespace ENGINE
 	/**
 	 * \class GameObject
 	 * \brief The base abstract class that all game objects inherit from
-	 * \ingroup Object Management
+	 * \ingroup ObjectGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class GameObject
 	{

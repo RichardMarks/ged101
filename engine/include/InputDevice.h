@@ -9,6 +9,7 @@
 /**
  * \file InputDevice.h
  * \brief Input Device Interface Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __INPUTDEVICE_H__
@@ -231,6 +232,8 @@ namespace ENGINE
 	/**
 	 * \class InputDeviceSingleton
 	 * \brief Interface to the input devices; keyboard, mouse, and joystick
+	 * \ingroup InputGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class InputDeviceSingleton
 	{

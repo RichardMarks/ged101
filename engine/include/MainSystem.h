@@ -9,6 +9,7 @@
 /**
  * \file MainSystem.h
  * \brief Main ged101 Engine Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __MAINSYSTEM_H__
@@ -19,6 +20,8 @@ namespace ENGINE
 	/**
 	 * \class MainSystemSingleton
 	 * \brief Initialization class for the ged101 engine
+	 * \ingroup SystemGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class MainSystemSingleton
 	{

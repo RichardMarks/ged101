@@ -9,6 +9,7 @@
 /**
  * \file BitmapFont.cpp
  * \brief Bitmapped-font printing system - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers

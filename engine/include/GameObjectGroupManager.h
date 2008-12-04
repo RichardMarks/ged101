@@ -9,6 +9,7 @@
 /**
  * \file GameObjectGroupManager.h
  * \brief Game Object Module - Header
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 #ifndef __GAMEOBJECTGROUPMANAGER_H__
@@ -26,7 +27,8 @@ namespace ENGINE
 	/**
 	 * \class GameObjectGroupManager
 	 * \brief A class to manage a list of game object groups either by ID or name
-	 * \ingroup Object Management
+	 * \ingroup ObjectGroup
+	 * \author Richard Marks <ccpsceo@gmail.com>
 	 */
 	class GameObjectGroupManager
 	{

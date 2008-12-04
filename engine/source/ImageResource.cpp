@@ -9,6 +9,7 @@
 /**
  * \file ImageResource.cpp
  * \brief Bitmap Image Resource Module - Implementation
+ * \author Richard Marks <ccpsceo@gmail.com>
  */
 
 // include the common headers
@@ -234,17 +235,17 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void SpriteBlit(ImageResource* destination, int destX, int destY)
+	void ImageResource::SpriteBlit(ImageResource* destination, int destX, int destY)
 	{
-		draw_sprite(destination, allegroBitmap_, destX, destY);
+		draw_sprite(destination->GetBitmap(), allegroBitmap_, destX, destY);
 	}
 	
 	/**************************************************************************/
 	
-	void AlphaBlit(ImageResource* destination, int destX, int destY, float alpha)
+	void ImageResource::AlphaBlit(ImageResource* destination, int destX, int destY, float alpha)
 	{
 		set_trans_blender(0, 0, 0, static_cast<int>(255 * alpha));
-		draw_trans_sprite(destination, allegroBitmap_, destX, destY);
+		draw_trans_sprite(destination->GetBitmap(), allegroBitmap_, destX, destY);
 	}
 	
 	/**************************************************************************/
