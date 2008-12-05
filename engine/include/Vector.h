@@ -135,6 +135,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Multiplies this vector by a scalar value
+		 * @param scalar is the value to multiply by
+		 * \return this vector after it has been multiplied by the scalar value
+		 */
 		Vector<elementCount, T>& operator*=(T scalar)
 		{
 			for (int index = 0; index < elementCount; index++)
@@ -147,6 +152,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Divides this vector by a scalar value
+		 * @param scalar is the value to divide by
+		 * \return this vector after it has been divided by the scalar value
+		 */
 		Vector<elementCount, T>& operator/=(T scalar)
 		{
 			T calcScalar = static_cast<T>(1.0f / scalar);
@@ -161,6 +171,10 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Simple pass-through of this vector for using as a right-hand-side value in a calculation
+		 * \return this vector
+		 */
 		Vector<elementCount, T> operator+() const
 		{
 			return *this;
@@ -168,6 +182,10 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Negation of this vector
+		 * \return a new vector that is the inverse of this vector
+		 */
 		Vector<elementCount, T> operator-() const
 		{
 			Vector<elementCount, T> negated = *this;
@@ -180,6 +198,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Adds the vector \a rhs to this vector
+		 * @param rhs is the vector to add
+		 * \return a new vector that is the result of the addition
+		 */
 		Vector<elementCount, T> operator+(const Vector<elementCount, T>& rhs) const
 		{
 			return Vector<elementCount, T>(*this) += rhs;
@@ -187,6 +210,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Subtracts the vector \a rhs from this vector
+		 * @param rhs is the vector to subtract
+		 * \return a new vector that is the result of the subtraction
+		 */
 		Vector<elementCount, T> operator-(const Vector<elementCount, T>& rhs) const
 		{
 			return Vector<elementCount, T>(*this) -= rhs;
@@ -194,6 +222,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Multiplies this vector by a scalar value
+		 * @param scalar is the value to multiply by
+		 * Returns a new vector that is the result of the multiplication
+		 */
 		Vector<elementCount, T> operator*(T scalar) const
 		{
 			return Vector<elementCount, T>(*this) *= scalar;
@@ -201,6 +234,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Divides this vector by a scalar value
+		 * @param scalar is the value to divide by
+		 * Returns a new vector that is the result of the division
+		 */
 		Vector<elementCount, T> operator/(T scalar) const
 		{
 			return Vector<elementCount, T>(*this) /= scalar;
@@ -208,6 +246,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Compares the equality of this vector against the vector \a rhs
+		 * @param rhs is the vector to compare against
+		 * \return true if the vectors are equal, false if they are not
+		 */
 		bool operator==(const Vector<elementCount, T>& rhs) const
 		{
 			for (int index = 0; index < elementCount; index++)
@@ -222,6 +265,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Compares the inequality of this vector against the vector \a rhs
+		 * @param rhs is the vector to compare against
+		 * \return true if the vectors are not equal, false if they are
+		 */
 		bool operator!=(const Vector<elementCount, T>& rhs) const
 		{
 			for (int index = 0; index < elementCount; index++)
@@ -236,6 +284,9 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Normalizes this vector so that the magnitude has a value of one
+		 */
 		void Normalize() 
 		{
 			*this *= static_cast<T>(1.0f / GetMagnitude());
@@ -352,6 +403,9 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Alternate class constructor - sets the elements of the vector
+		 */
 		Vector2D(T x, T y)
 		{
 			this->data_[0] = x;
@@ -360,6 +414,9 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Alternate class constructor
+		 */
 		Vector2D(const T* rhs) : 
 			Vector<2, T>(rhs)
 		{
@@ -426,6 +483,9 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Alternate class constructor - sets the elements of the vector
+		 */
 		Vector3D(T x, T y, T z)
 		{
 			this->data_[0] = x;
@@ -435,6 +495,9 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Alternate class constructor
+		 */
 		Vector3D(const T* rhs) : 
 			Vector<3, T>(rhs)
 		{
@@ -443,6 +506,11 @@ namespace ENGINE
 		
 		/**********************************************************************/
 		
+		/**
+		 * Gets the cross-product of two vectors
+		 * @param rhs is the vector to calculate against
+		 * \return the cross-product of this vector and the vector \a rhs
+		 */
 		Vector3D<T> GetCrossProduct(const Vector3D<T>& rhs) const
 		{
 			return Vector3D<T>(
