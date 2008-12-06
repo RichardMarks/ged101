@@ -56,6 +56,7 @@
  * \defgroup DebugGroup Debug
  * \defgroup ObjectGroup Object Management
  * \defgroup MathGroup Good Ole Game Programmer Mathematics
+ * \defgroup SceneGroup Scene Management
  */
 
 
