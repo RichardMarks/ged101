@@ -88,17 +88,17 @@ namespace ENGINE
 		};
 
 		/**********************************************************************/
-#if 0
+
 		/**
 		 * Accessor function to access the vector's elements by index
 		 * @param element is the element index to access
 		 * \return a read-only reference to the specified element of the vector
 		 */
-		const T& operator[](const int element)
+		const T& operator[](const int element) const
 		{
 			return data_[element];
 		};
-#endif
+
 		/**********************************************************************/
 		
 		/**
