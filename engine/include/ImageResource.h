@@ -193,7 +193,7 @@ namespace ENGINE
 		 * @param destX is the X coordinate in pixels to draw to on the destination image.
 		 * @param destY is the Y coordinate in pixels to draw to on the destination image.
 		 */
-		void SpriteBlit(ImageResource* destination, int destX, int destY);
+		void BlitSprite(ImageResource* destination, int destX, int destY);
 		
 		/**
 		 * Blits (draws) the image onto another image at the specified location.
@@ -205,7 +205,17 @@ namespace ENGINE
 		 * @param destY is the Y coordinate in pixels to draw to on the destination image.
 		 * @param alpha is the alpha value, which should be from 0.0f (invisible) to 1.0f (solid) -- default is 0.5f which is about 50% translucent
 		 */
-		void AlphaBlit(ImageResource* destination, int destX, int destY, float alpha = 0.5f);
+		void BlitAlpha(ImageResource* destination, int destX, int destY, float alpha = 0.5f);
+		
+		/**
+		 * Blits (draws) the image onto another image at the specified location.
+		 * The alpha value of the pixels in the image determine if the pixel will be drawn or not, or drawn dim
+		 * This lets you draw an image on top of another image with some areas being specified as DO-NOT-DRAW.
+		 * @param destination is a pointer to an ImageResource that you wish to draw on.
+		 * @param destX is the X coordinate in pixels to draw to on the destination image.
+		 * @param destY is the Y coordinate in pixels to draw to on the destination image.
+		 */
+		void BlitAlphaSprite(ImageResource* destination, int destX, int destY);
 		
 		// transformations
 		

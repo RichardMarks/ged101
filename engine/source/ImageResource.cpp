@@ -235,17 +235,26 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void ImageResource::SpriteBlit(ImageResource* destination, int destX, int destY)
+	void ImageResource::BlitSprite(ImageResource* destination, int destX, int destY)
 	{
 		draw_sprite(destination->GetBitmap(), allegroBitmap_, destX, destY);
 	}
 	
 	/**************************************************************************/
 	
-	void ImageResource::AlphaBlit(ImageResource* destination, int destX, int destY, float alpha)
+	void ImageResource::BlitAlpha(ImageResource* destination, int destX, int destY, float alpha)
 	{
 		set_trans_blender(0, 0, 0, static_cast<int>(255 * alpha));
 		draw_trans_sprite(destination->GetBitmap(), allegroBitmap_, destX, destY);
+	}
+	
+	/**************************************************************************/
+	
+	void ImageResource::BlitAlphaSprite(ImageResource* destination, int destX, int destY)
+	{
+		set_alpha_blender();
+		draw_trans_sprite(destination->GetBitmap(), allegroBitmap_, destX, destY);
+		set_trans_blender(0, 0, 0, 255);
 	}
 	
 	/**************************************************************************/

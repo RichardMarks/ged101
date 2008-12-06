@@ -425,6 +425,16 @@ namespace ENGINE
 		/**********************************************************************/
 		
 		/**
+		 * Alternate class constructor
+		 */
+		Vector2D(const Vector<2, T>& rhs) : 
+			Vector<2, T>(rhs)
+		{
+		};
+		
+		/**********************************************************************/
+		
+		/**
 		 * Gets the dot product of the vectors \a rhs and the vector that is perpendicular to this vector.
 		 * @param rhs is the second vector needed to calculate the perpendicular dot product
 		 * \return the dot product of the vectors \a rhs and the vector that is perpendicular to this vector.
@@ -502,6 +512,16 @@ namespace ENGINE
 			Vector<3, T>(rhs)
 		{
 			
+		};
+		
+		/**********************************************************************/
+		
+		/**
+		 * Alternate class constructor
+		 */
+		Vector3D(const Vector<3, T>& rhs) : 
+			Vector<3, T>(rhs)
+		{
 		};
 		
 		/**********************************************************************/
