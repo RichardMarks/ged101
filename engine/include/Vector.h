@@ -76,7 +76,7 @@ namespace ENGINE
 		};
 		
 		/**********************************************************************/
-		
+
 		/**
 		 * Accessor function to access the vector's elements by index
 		 * @param element is the element index to access
@@ -86,9 +86,9 @@ namespace ENGINE
 		{
 			return data_[element];
 		};
-		
+
 		/**********************************************************************/
-		
+#if 0
 		/**
 		 * Accessor function to access the vector's elements by index
 		 * @param element is the element index to access
@@ -98,7 +98,7 @@ namespace ENGINE
 		{
 			return data_[element];
 		};
-		
+#endif
 		/**********************************************************************/
 		
 		/**
