@@ -38,6 +38,9 @@ engine = ['ged101core',
 	
 	./source/SceneLayer.cpp
 	./source/ScrollingLayer.cpp
+	
+	./source/HorizontalScrollingLayer.cpp
+	
 	./source/SceneLayerList.cpp
 	./source/Scene.cpp
 

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Adding class "$1
+
+touch ./engine/include/$1.h
+touch ./engine/source/$1.cpp
+
