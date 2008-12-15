@@ -26,6 +26,7 @@
 #include "AnimationSequence.h"
 #include "Tile.h"
 #include "TileMap.h"
+#include "ColorRGB.h"
 
 // audio module
 #include "Audio_OGG.h"
@@ -42,6 +43,11 @@
 
 // debugging module
 #include "DebugReport.h"
+
+// scene module
+#include "Scene.h"
+#include "HorizontalScrollingLayer.h"
+#include "VerticalScrollingLayer.h"
 
 // math
 #include "Vector.h"

@@ -53,7 +53,8 @@ namespace ENGINE
 		NameDirectory* names_;
 		SceneLayerList* layers_;
 	}; // end class
-
+	
+#define Scene SceneSingleton::GetInstance()
 } // end namespace
 #endif
 

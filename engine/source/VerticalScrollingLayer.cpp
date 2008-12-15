@@ -1,13 +1,13 @@
 
 // CODESTYLE: v2.0
 
-// HorizontalScrollingLayer.cpp
+// VerticalScrollingLayer.cpp
 // Project: Game Engine Design 101 (ENGINE)
 // Author: Richard Marks
-// Purpose: A layer that holds a single image, and can scroll either left or right
+// Purpose: A layer that holds a single image, and can scroll either up or down
 
 /**
- * \file HorizontalScrollingLayer.h
+ * \file VerticalScrollingLayer.h
  * \brief Scene Management Module - Header
  * \ingroup SceneGroup
  * \author Richard Marks <ccpsceo@gmail.com>
@@ -19,7 +19,7 @@
 #include <cstring>
 
 // include the complementing header
-#include "HorizontalScrollingLayer.h"
+#include "VerticalScrollingLayer.h"
 
 // include the image resource header
 #include "ImageResource.h"
@@ -29,7 +29,7 @@
 
 namespace ENGINE
 {
-	HorizontalScrollingLayer::HorizontalScrollingLayer() :
+	VerticalScrollingLayer::VerticalScrollingLayer() :
 		translucency_(1.0f),
 		layerWidth_(0),
 		layerHeight_(0)
@@ -38,7 +38,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	HorizontalScrollingLayer::HorizontalScrollingLayer(ImageResource* image, float scrollSpeed, float translucency, float x, float y)
+	VerticalScrollingLayer::VerticalScrollingLayer(ImageResource* image, float scrollSpeed, float translucency, float x, float y)
 	{
 		SetPosition(x, y);
 		SetScrollSpeed(scrollSpeed);
@@ -48,7 +48,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	HorizontalScrollingLayer::HorizontalScrollingLayer(const char* imageFileName, float scrollSpeed, float translucency, float x, float y)
+	VerticalScrollingLayer::VerticalScrollingLayer(const char* imageFileName, float scrollSpeed, float translucency, float x, float y)
 	{
 		SetPosition(x, y);
 		SetScrollSpeed(scrollSpeed);
@@ -58,21 +58,21 @@ namespace ENGINE
 	
 	/**************************************************************************/
 		
-	HorizontalScrollingLayer::~HorizontalScrollingLayer()
+	VerticalScrollingLayer::~VerticalScrollingLayer()
 	{
 		Destroy();
 	}
 	
 	/**************************************************************************/
 
-	bool HorizontalScrollingLayer::Initialize()
+	bool VerticalScrollingLayer::Initialize()
 	{
 		return true;
 	}
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::Update(float deltaTime)
+	void VerticalScrollingLayer::Update(float deltaTime)
 	{
 		if (layerScrollSpeed_ == 0.0f)
 		{
@@ -80,29 +80,29 @@ namespace ENGINE
 			return;
 		}
 		
-		layerPosition_[0] += layerScrollSpeed_ * deltaTime;
-		int x = static_cast<int>(layerPosition_[0]);
+		layerPosition_[1] += layerScrollSpeed_ * deltaTime;
+		int y = static_cast<int>(layerPosition_[1]);
 		if (layerScrollSpeed_ > 0.0f)
 		{
-			// layer is moving to the right
-			if (x > layerWidth_)
+			// layer is moving down
+			if (y > layerWidth_)
 			{
-				layerPosition_[0] = static_cast<float>(0);
+				layerPosition_[1] = static_cast<float>(0);
 			}
 		}
 		else
 		{
-			// layer is moving to the left
-			if (x < 0)
+			// layer is moving up
+			if (y < 0)
 			{
-				layerPosition_[0] = static_cast<float>(layerWidth_);
+				layerPosition_[1] = static_cast<float>(layerHeight_);
 			}
 		}
 	}
 	
 	/**************************************************************************/
 
-	void HorizontalScrollingLayer::Render(ImageResource* target)
+	void VerticalScrollingLayer::Render(ImageResource* target)
 	{
 		int x = static_cast<int>(layerPosition_[0]);
 		int y = static_cast<int>(layerPosition_[1]);
@@ -110,9 +110,9 @@ namespace ENGINE
 		// are we drawing this thing with translucency
 		if (translucency_ < 1.0f)
 		{
-			drawingSurface_->BlitAlpha(target, x - layerWidth_, y, translucency_);
+			drawingSurface_->BlitAlpha(target, x, y - layerHeight_, translucency_);
 			drawingSurface_->BlitAlpha(target, x, y, translucency_);
-			drawingSurface_->BlitAlpha(target, x + layerWidth_, y, translucency_);
+			drawingSurface_->BlitAlpha(target, x, y + layerHeight_, translucency_);
 			return;
 		}
 		
@@ -120,20 +120,20 @@ namespace ENGINE
 		int w = drawingSurface_->GetWidth();
 		int h = drawingSurface_->GetHeight();
 		
-		drawingSurface_->BlitMasked(target, 0, 0, x - layerWidth_, y, w, h);
+		drawingSurface_->BlitMasked(target, 0, 0, x, y - layerHeight_, w, h);
 		drawingSurface_->BlitMasked(target, 0, 0, x, y, w, h);
-		drawingSurface_->BlitMasked(target, 0, 0, x + layerWidth_, y, w, h);
+		drawingSurface_->BlitMasked(target, 0, 0, x, y + layerHeight_, w, h);
 	}
 
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::Destroy()
+	void VerticalScrollingLayer::Destroy()
 	{
 	}
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::SetImage(ImageResource* image)
+	void VerticalScrollingLayer::SetImage(ImageResource* image)
 	{
 		Destroy();
 		
@@ -150,7 +150,7 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::SetImage(const char* imageFileName)
+	void VerticalScrollingLayer::SetImage(const char* imageFileName)
 	{
 		Destroy();
 		
@@ -167,21 +167,21 @@ namespace ENGINE
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::SetScrollSpeed(float scrollSpeed)
+	void VerticalScrollingLayer::SetScrollSpeed(float scrollSpeed)
 	{
 		layerScrollSpeed_ = scrollSpeed;
 	}
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::SetTranslucency(float translucency)
+	void VerticalScrollingLayer::SetTranslucency(float translucency)
 	{
 		translucency_ = translucency;
 	}
 	
 	/**************************************************************************/
 	
-	void HorizontalScrollingLayer::SetPosition(float x, float y)
+	void VerticalScrollingLayer::SetPosition(float x, float y)
 	{
 		layerPosition_[0] = x;
 		layerPosition_[1] = y;
@@ -189,35 +189,35 @@ namespace ENGINE
 	
 	/**************************************************************************/
 		
-	ImageResource* HorizontalScrollingLayer::GetImage()
+	ImageResource* VerticalScrollingLayer::GetImage()
 	{
 		return drawingSurface_;
 	}
 	
 	/**************************************************************************/
 	
-	float HorizontalScrollingLayer::GetScrollSpeed()
+	float VerticalScrollingLayer::GetScrollSpeed()
 	{
 		return layerScrollSpeed_;
 	}
 	
 	/**************************************************************************/
 	
-	float HorizontalScrollingLayer::GetTranslucency()
+	float VerticalScrollingLayer::GetTranslucency()
 	{
 		return translucency_;
 	}
 	
 	/**************************************************************************/
 	
-	int HorizontalScrollingLayer::GetWidth()
+	int VerticalScrollingLayer::GetWidth()
 	{
 		return layerWidth_;
 	}
 	
 	/**************************************************************************/
 	
-	int HorizontalScrollingLayer::GetHeight()
+	int VerticalScrollingLayer::GetHeight()
 	{
 		return layerHeight_;
 	}

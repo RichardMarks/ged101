@@ -6,45 +6,49 @@
 
 engine = ['ged101core', 
 	Split("""
-	./source/DebugReport.cpp
-	./source/MainSystem.cpp
-	./source/GraphicsDevice.cpp
-	./source/InputDevice.cpp
-	./source/InputDevice_Keyboard.cpp
-	./source/InputDevice_Mouse.cpp
-	./source/InputDevice_Joystick.cpp
+	./source/AnimationFrame.cpp
+	./source/AnimationSequence.cpp
 	./source/AudioDevice.cpp
 	./source/Audio_OGG.cpp
 	
+	./source/BitmapFont.cpp
+	
 	./source/ColorRGB.cpp
 	
-	./source/ImageResource.cpp
-	./source/ImageList.cpp
-	./source/BitmapFont.cpp
-	./source/AnimationFrame.cpp
-	./source/AnimationSequence.cpp
-	
-	./source/GameTimer.cpp
-	./source/GameStateManager.cpp
+	./source/DebugReport.cpp
 	
 	./source/GameObject.cpp
 	./source/GameObjectGroup.cpp
 	./source/GameObjectGroupManager.cpp
-
+	
+	./source/GameStateManager.cpp
+	./source/GameTimer.cpp
+	./source/GraphicsDevice.cpp
+	
+	./source/HorizontalScrollingLayer.cpp
+	
+	./source/ImageList.cpp
+	./source/ImageResource.cpp
+	./source/InputDevice.cpp
+	./source/InputDevice_Joystick.cpp
+	./source/InputDevice_Keyboard.cpp
+	./source/InputDevice_Mouse.cpp
+	
+	./source/MainSystem.cpp
+	
+	./source/NameDirectory.cpp
+	
+	./source/Scene.cpp
+	./source/SceneLayer.cpp	
+	./source/SceneLayerList.cpp
+	
 	./source/Tile.cpp
 	./source/TileMap.cpp
 	./source/TileMapRenderer.cpp
 	./source/Tileset.cpp
 	
-	./source/SceneLayer.cpp
-	./source/ScrollingLayer.cpp
+	./source/VerticalScrollingLayer.cpp
 	
-	./source/HorizontalScrollingLayer.cpp
-	
-	./source/SceneLayerList.cpp
-	./source/Scene.cpp
-
-	./source/NameDirectory.cpp
 	./source/main.cpp
 	""")]
 
