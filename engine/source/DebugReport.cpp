@@ -90,6 +90,20 @@ namespace DEBUG
 	
 	/**************************************************************************/
 	
+	void DebugReportInfo::PrintSimpleMessage(const char* message, ...)
+	{
+		va_list va;
+		va_start(va, message);
+		char logBuffer[DEBUG::DBGREP_MAX_REPORT_LENGTH];
+		const int lengthReport = strlen(logBuffer);
+		vsnprintf(logBuffer + lengthReport, DEBUG::DBGREP_MAX_REPORT_LENGTH - lengthReport - 2, message, va);
+		strncat(logBuffer, "\n", 2);
+		DEBUG::DebugReport::Log(DebugReport_SimpleMessage, func_, logBuffer);
+		va_end(va);
+	}
+	
+	/**************************************************************************/
+	
 	void DebugReport::Log(ReportSeverityLevel severity, const char* location, const char* message)
 	{
 		FILE* fp = 0;
@@ -172,6 +186,19 @@ namespace DEBUG
 					fclose(fp);
 				}
 				fprintf(stderr, "A Message Reported at %s from the file: %s\n\t%s\n", timeStampBuffer, location, message);
+			} break;
+			
+			// a simple message with no formatting it is logged and process execution continues.
+			case DebugReport_SimpleMessage:
+			{
+				// open log.txt and write the message to it
+				fp = fopen("log.txt", "a");
+				if (fp)
+				{
+					fprintf(fp, "%s: %s", timeStampBuffer, message);
+					fclose(fp);
+				}
+				fprintf(stderr, "%s: %s", timeStampBuffer, message);
 			} break;
 			
 			default: break;

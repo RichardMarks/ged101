@@ -49,7 +49,9 @@ namespace DEBUG
 		//! writes a warning to warnings.txt
 		DebugReport_Warning,
 		//! writes a message to messages.txt
-		DebugReport_Message
+		DebugReport_Message,
+		//! just writes a message to log.txt with no line file info or anything
+		DebugReport_SimpleMessage,
 	};
 	
 	//! the maximum report length is limited to 4096 characters
@@ -107,6 +109,12 @@ namespace DEBUG
 		 * @param message is the message to be reported. This is a printf-style C-string.
 		 */
 		void PrintMessage(const char* message, ...);
+		
+		/**
+		 * Makes a call to the DebugReportInfo::PrintLog() function with the DEBUG::DebugReport_SimpleMessage severity level.
+		 * @param message is the message to be reported. This is a printf-style C-string.
+		 */
+		void PrintSimpleMessage(const char* message, ...);
 		
 	private:
 		/**
@@ -182,12 +190,15 @@ namespace DEBUG
 	 * \brief reports a warning and continues running
 	 * \def LogMessage
 	 * \brief reports a message and continues running
+	 * \def LogSimpleMessage
+	 * \brief reports a message with no extra information attached and continues running
 	 */
 
 	#define LogFatal DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintFatal
 	#define LogError DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintError
 	#define LogWarning DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintWarning
 	#define LogMessage DEBUG::DebugReportInfo(__PRETTY_FUNCTION__, __FILE__, __LINE__).PrintMessage
+	#define LogSimpleMessage DEBUG::DebugReportInfo("simple", "", 1984).PrintSimpleMessage
 	
 } // end namespace
 #endif
